@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("cart persists, quantities update, and items can be removed", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByRole("button", { name: "Add Berrylicious to bag", exact: true })
     .click();
@@ -29,7 +29,7 @@ test("cart persists, quantities update, and items can be removed", async ({
 test("quiz completes and recommendation opens product details", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByRole("button", { name: "Find your tea", exact: true })
     .click();
@@ -54,7 +54,7 @@ test("quiz completes and recommendation opens product details", async ({
 });
 test("mobile navigation, images and layout work", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("./");
   await page.getByRole("button", { name: "Toggle navigation" }).click();
   await page
     .getByRole("navigation")
@@ -95,7 +95,7 @@ test("desktop has no horizontal overflow or runtime errors", async ({
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto("/");
+  await page.goto("./");
   await page
     .locator("img")
     .evaluateAll((imgs) =>

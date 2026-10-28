@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { X } from "lucide-react";
-const asset = (name: string) => `/images/${name}.png`;
+const asset = (name: string) => `${import.meta.env.BASE_URL}images/${name}.png`;
 export function Flower({
   x = 0,
   y = 0,

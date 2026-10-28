@@ -17,7 +17,7 @@ import {
 import { products, questions, type Product } from "./content";
 import { Flower, Sprig, HeroArt, Overlay } from "./components";
 import "./styles.css";
-const asset = (name: string) => `/images/${name}.png`;
+const asset = (name: string) => `${import.meta.env.BASE_URL}images/${name}.png`;
 type Cart = Record<string, number>;
 function readCart(): Cart {
   try {
