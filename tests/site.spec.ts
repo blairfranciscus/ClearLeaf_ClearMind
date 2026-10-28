@@ -1,115 +1,118 @@
-import { test, expect } from "@playwright/test";
-test("cart persists, quantities update, and items can be removed", async ({
-  page,
-}) => {
-  await page.goto("./");
-  await page
-    .getByRole("button", { name: "Add Berrylicious to bag", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "Open shopping bag, 1 items" })
-    .click();
-  const dialog = page.getByRole("dialog");
-  await expect(
-    dialog.getByRole("heading", { name: "Berrylicious" }),
-  ).toBeVisible();
-  await dialog.getByRole("button", { name: "Increase Berrylicious" }).click();
-  await page.reload();
-  await page
-    .getByRole("button", { name: "Open shopping bag, 2 items" })
-    .click();
-  await expect(page.getByLabel("Berrylicious quantity")).toHaveText("2");
-  await page.getByRole("button", { name: "Decrease Berrylicious" }).click();
-  await expect(page.getByLabel("Berrylicious quantity")).toHaveText("1");
-  await page.getByRole("button", { name: "Remove", exact: true }).click();
-  await expect(page.getByText("Your bag is waiting to bloom.")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog")).toHaveCount(0);
-});
-test("quiz completes and recommendation opens product details", async ({
-  page,
-}) => {
-  await page.goto("./");
-  await page
-    .getByRole("button", { name: "Find your tea", exact: true })
-    .click();
-  await page.getByRole("button", { name: /A minty moment/ }).click();
-  await page
-    .getByRole("button", { name: /My favourite library corner/ })
-    .click();
-  await page.getByRole("button", { name: /Starting a fresh page/ }).click();
-  await expect(
-    page.getByRole("heading", { name: "Hello, Mint Study." }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Add my match to bag" }).click();
-  await expect(
-    page.getByRole("button", { name: "Open shopping bag, 1 items" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "View tea details" }).click();
-  await expect(
-    page
-      .getByRole("dialog")
-      .getByRole("heading", { name: "Mint Study", exact: true }),
-  ).toBeVisible();
-});
-test("mobile navigation, images and layout work", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("./");
-  await page.getByRole("button", { name: "Toggle navigation" }).click();
-  await page
-    .getByRole("navigation")
-    .getByRole("link", { name: "Our teas" })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "Toggle navigation" }),
-  ).toHaveAttribute("aria-expanded", "false");
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBeTruthy();
-  await page
-    .locator("img")
-    .evaluateAll((imgs) =>
-      imgs.forEach((img) => ((img as HTMLImageElement).loading = "eager")),
-    );
-  await page.waitForFunction(() =>
-    Array.from(document.images).every((i) => i.complete),
+import { test, expect, type Page } from "@playwright/test";
+
+async function loadArtwork(page: Page) {
+  await page.locator("img").evaluateAll((images) =>
+    images.forEach((image) => {
+      image.loading = "eager";
+    }),
   );
-  const broken = await page
-    .locator("img")
-    .evaluateAll(
-      (imgs) =>
-        imgs.filter(
-          (img) =>
-            !(img as HTMLImageElement).complete ||
-            !(img as HTMLImageElement).naturalWidth,
-        ).length,
-    );
-  expect(broken).toBe(0);
-  await page.screenshot({ path: "/tmp/clearleaf-mobile.png", fullPage: true });
-});
-test("desktop has no horizontal overflow or runtime errors", async ({
+  await page.waitForFunction(() =>
+    [...document.images].every((image) => image.complete),
+  );
+  expect(
+    await page
+      .locator("img")
+      .evaluateAll(
+        (images) => images.filter((image) => !image.naturalWidth).length,
+      ),
+  ).toBe(0);
+}
+
+test("real page navigation works, including direct refresh and browser back", async ({
   page,
 }) => {
   const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  await page.setViewportSize({ width: 1440, height: 1000 });
+  page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("./");
+  await expect(page).toHaveTitle("Clearleaf — Clear Mind, Clearleaf.");
   await page
-    .locator("img")
-    .evaluateAll((imgs) =>
-      imgs.forEach((img) => ((img as HTMLImageElement).loading = "eager")),
-    );
-  await page.waitForFunction(() =>
-    Array.from(document.images).every((i) => i.complete),
+    .getByRole("navigation", { name: "Main navigation" })
+    .getByRole("link", { name: "Packaging", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/packaging\.html$/);
+  await expect(
+    page.getByRole("heading", { name: "Berrylicious", exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page
+      .getByRole("navigation", { name: "Main navigation" })
+      .getByRole("link", { name: "Packaging" }),
+  ).toHaveAttribute("aria-current", "page");
+  await page
+    .getByRole("navigation", { name: "Main navigation" })
+    .getByRole("link", { name: "Events", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/events\.html$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Clearleafon campus.",
   );
-  await page.waitForTimeout(1500);
+  await page.reload();
+  await expect(
+    page.getByText("Exam season. Dates to be confirmed."),
+  ).toBeVisible();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/packaging\.html$/);
   expect(errors).toEqual([]);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBeTruthy();
-  await page.screenshot({ path: "/tmp/clearleaf-desktop.png", fullPage: true });
+});
+
+for (const viewport of [
+  { width: 1440, height: 1000 },
+  { width: 390, height: 844 },
+  { width: 320, height: 750 },
+]) {
+  test(`all pages render with readable text and no overflow at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    const failed: string[] = [];
+    page.on("response", (response) => {
+      if (response.status() >= 400) failed.push(response.url());
+    });
+    for (const file of ["index.html", "packaging.html", "events.html"]) {
+      await page.goto(`./${file}`);
+      await loadArtwork(page);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      const smallText = await page
+        .locator("p, a, dt, dd, figcaption")
+        .evaluateAll((elements) =>
+          elements
+            .filter(
+              (element) => parseFloat(getComputedStyle(element).fontSize) < 16,
+            )
+            .map((element) => element.textContent),
+        );
+      expect(smallText).toEqual([]);
+      if (viewport.width !== 320)
+        await page.screenshot({
+          path: `/tmp/clearleaf-${file.replace(".html", "")}-${viewport.width}.png`,
+          fullPage: true,
+        });
+    }
+    expect(failed).toEqual([]);
+  });
+}
+
+test("original sachets and poster link load at the repository path", async ({
+  page,
+}) => {
+  await page.goto("./packaging.html");
+  await expect(
+    page.getByRole("img", {
+      name: "Original Berrylicious Clearleaf sachet design",
+      exact: true,
+    }),
+  ).toBeVisible();
+  expect(await page.locator(".sachet-artwork image").count()).toBe(3);
+  await page.goto("./events.html");
+  const poster = page.getByRole("link", { name: "Open the poster" });
+  const href = await poster.getAttribute("href");
+  const response = await page.request.get(new URL(href!, page.url()).href);
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-type"]).toContain("image/png");
 });
