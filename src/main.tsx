@@ -165,7 +165,7 @@ function App() {
               </button>
             </div>
             <div className="hero-footnote">
-              <Leaf size={16} /> Three flavours. A moment for you.
+              <Leaf size={16} /> A fresh little moment. Three flavours to explore.
             </div>
           </div>
           <HeroArt />
