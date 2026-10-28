@@ -1,104 +1,35 @@
-export type Product = {
-  id: string;
-  name: string;
-  colour: string;
-  label: string;
-  description: string;
-  image: string;
-  note: string;
-};
-export const products: Product[] = [
+export const asset = (name: string) => `${import.meta.env.BASE_URL}images/${name}.png`;
+
+export const teas = [
   {
-    id: "berry",
-    name: "Berrylicious",
-    colour: "#f2d5d9",
-    label: "A little berry daydream",
-    description:
-      "For the berry lovers. A playful pink pick for a pause between pages.",
-    image: "berrylicious",
-    note: "Berry-inspired flavour",
+    name: 'Berrylicious',
+    image: 'berrylicious',
+    colour: '#f5e1e4',
+    description: 'Pink packaging, berry illustrations and handwritten lettering.',
+    width: 338,
+    height: 116,
   },
   {
-    id: "mint",
-    name: "Mint Study",
-    colour: "#d8e9ec",
-    label: "Turn over a fresh leaf",
-    description:
-      "A mint-inspired companion for your desk, your notebook and your next chapter.",
-    image: "mint-study",
-    note: "Mint-inspired flavour",
+    name: 'Mint Study',
+    image: 'mint-study',
+    colour: '#e1edf0',
+    description: 'Pale blue packaging with illustrated mint leaves.',
+    width: 306,
+    height: 106,
   },
   {
-    id: "lemon",
-    name: "Lemon Myrtle",
-    colour: "#f4edb9",
-    label: "A little pocket of sunshine",
-    description:
-      "A lemon myrtle pick for those who like their tea ritual on the bright side.",
-    image: "lemon-myrtle",
-    note: "Lemon myrtle flavour",
+    name: 'Lemon Myrtle',
+    image: 'lemon-myrtle',
+    colour: '#f6f1d2',
+    description: 'Soft yellow packaging with lemon and botanical illustrations.',
+    width: 286,
+    height: 136,
   },
 ];
-// Editable preference rules. Answers add one point to a flavour; ties use product order.
-export const questions = [
-  {
-    title: "What flavour catches your eye?",
-    answers: [
-      {
-        text: "Something berry-inspired",
-        detail: "A little fruity, a little playful",
-        product: "berry",
-      },
-      {
-        text: "A minty moment",
-        detail: "A fresh leaf kind of feeling",
-        product: "mint",
-      },
-      {
-        text: "A citrus-inspired sip",
-        detail: "Give me the sunny option",
-        product: "lemon",
-      },
-    ],
-  },
-  {
-    title: "Where does your tea break take you?",
-    answers: [
-      {
-        text: "A catch-up between classes",
-        detail: "A small pause with good company",
-        product: "berry",
-      },
-      {
-        text: "My favourite library corner",
-        detail: "A notebook and a moment to myself",
-        product: "mint",
-      },
-      {
-        text: "Outside, under the trees",
-        detail: "A change of scenery",
-        product: "lemon",
-      },
-    ],
-  },
-  {
-    title: "Pick a little everyday ritual.",
-    answers: [
-      {
-        text: "Sharing something lovely",
-        detail: "Tea tastes better with a friend",
-        product: "berry",
-      },
-      {
-        text: "Starting a fresh page",
-        detail: "Make a little space in the day",
-        product: "mint",
-      },
-      {
-        text: "Taking the scenic route",
-        detail: "There’s time to enjoy the little things",
-        product: "lemon",
-      },
-    ],
-  },
+
+export type Page = 'home' | 'packaging' | 'events';
+export const pages: { id: Page; name: string; href: string }[] = [
+  { id: 'home', name: 'Home', href: './' },
+  { id: 'packaging', name: 'Packaging', href: './packaging.html' },
+  { id: 'events', name: 'Events', href: './events.html' },
 ];

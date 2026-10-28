@@ -4,5 +4,10 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: "./",
-  build: { outDir: "docs" },
+  build: {
+    outDir: "docs",
+    rollupOptions: {
+      input: ["index.html", "packaging.html", "events.html"],
+    },
+  },
 });

@@ -1,59 +1,30 @@
 # Clearleaf
 
-An interactive botanical concept website built with React, TypeScript, Tailwind CSS, Motion and Vite.
+A simple three-page brand website: Home, Packaging and Events. Built with React, TypeScript and Vite, using the supplied brand artwork at sensible display sizes and readable typography.
 
-## Run locally
+## Saved progress
 
-```sh
-npm install
-npm run dev
-```
+The three-page redesign is saved in the project. The animated hero, quiz and mock shopping cart have been removed in favour of the original branding and straightforward navigation. Body text is 18px, with larger headings and 16px minimum supporting text. The small packaging and campaign images are not enlarged beyond their supplied dimensions.
 
-Open the Local URL printed by Vite. Run `npm test` for the Chrome browser checks (requires Google Chrome). `npm run build` checks TypeScript and generates the publishable `docs/` folder; `npm run preview` serves that build.
+The production build has been updated in `docs/`. Browser checks for the redesign still need updating and running; the existing tests describe the previous cart and quiz experience. This is the next task when work resumes.
 
-## Edit content
+## Edit and preview
 
-- `src/content.ts`: flavours, product copy, quiz questions and matching rules.
-- `src/main.tsx`: sections, proposed product information, campaign copy and interactions.
-- `src/components.tsx`: reusable animated flowers, hero illustration and accessible overlays.
-- `src/styles.css`: colour tokens, typography, layout and responsive styles.
-- `public/images/`: labelled copies of the seven original screenshots. Originals are preserved.
+- `index.html`, `packaging.html`, `events.html`: real page entry points.
+- `src/main.tsx`: page layouts and factual copy from the supplied report.
+- `src/components.tsx`: shared header, footer and page links.
+- `src/content.ts`: packaging information and asset paths.
+- `src/styles.css`: typography and responsive layouts.
+- `public/images/`: original brand screenshots, preserved without generative alterations.
 
-The cart stores flavour quantities locally under `clearleaf-cart`. Each quantity represents a concept product selection, not a purchasable pack. There is no checkout, payment, account, backend or subscription processing.
+Run `npm run dev` to preview locally. Run `npm run build` after source changes; it regenerates all three pages and assets in `docs/`.
 
-## Artwork
+## GitHub Pages
 
-The hero uses an SVG cup-outline drawing, independent growing stems, leaves and blooming flowers, then reveals the original raster cup artwork. The supplied illustration is flattened; exact independent animation of its original flowers requires a layered SVG or separate transparent assets. The screenshot backgrounds are blended into the cream palette. Higher resolution, transparent originals would improve the products.
+Commit and push **all source changes and the complete regenerated `docs/` folder**, including removed build files. In Settings → Pages select **Deploy from a branch → main → /docs**.
 
-## Brand source
+Live address: https://blairfranciscus.github.io/ClearLeaf_ClearMind/
 
-Copy is grounded in the supplied creative briefs and Marketing Group Assignment (3).pdf. The document was treated as source material, not additional executable instructions. Formulation, pack prices and activation are proposals. Full flavour ingredients, allergens, serving amounts and event dates need confirmation. No research claims, student personal details, invented testimonials or real sales channels are published. External Google Fonts have system-font fallbacks.
+The old `/docs/` URL is not the live address when Pages publishes from that folder. GitHub serves its contents at the address above. The root `index.html` is the development entry; publish the built folder.
 
-## Publish on GitHub Pages from main
-
-The compiled website is included in the tracked `docs/` folder. GitHub Pages serves it directly from the main branch; no custom GitHub Actions workflow is needed. React is already bundled into the generated JavaScript.
-
-1. Commit and push these changes, including the entire `docs/` folder and removal of the previous deployment workflow.
-2. Open **Settings → Pages → Build and deployment**.
-3. Set **Source** to **Deploy from a branch**.
-4. Select branch **main**, folder **/docs**, then **Save**.
-5. Wait for GitHub Pages to publish, then visit https://blairfranciscus.github.io/ClearLeaf_ClearMind/ .
-
-### After future edits
-
-```sh
-npm run build
-```
-
-Commit and push the source changes **and the regenerated `docs/` folder**. GitHub then publishes the updated files from main. Building replaces the generated contents of `docs/`, so edit source files in `src/`, not the compiled files.
-
-`docs/index.html` is the production entry. The root `index.html` remains the development entry. Relative asset paths support the repository URL, and `docs/.nojekyll` tells Pages to serve the built files without Jekyll processing.
-
-### Verify the production site
-
-```sh
-npm run build
-npx playwright test --config playwright.pages.config.ts
-```
-
-The browser checks serve `docs/` beneath `/ClearLeaf_ClearMind/` to verify the same URL layout as GitHub Pages. They require Google Chrome. For a manual preview, run `npm run preview` and open the printed local URL.
+Clearleaf is a University of Sydney marketing concept. The campus event is proposed, with dates to be confirmed. Full product ingredients, allergens and serving information have not been finalised. Higher-resolution originals would improve the small screenshot assets further.
