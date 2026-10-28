@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Open the Local URL printed by Vite. Run `npm test` for the Chrome browser checks (requires Google Chrome). `npm run build` checks TypeScript and generates `dist/`; `npm run preview` serves that build.
+Open the Local URL printed by Vite. Run `npm test` for the Chrome browser checks (requires Google Chrome). `npm run build` checks TypeScript and generates the publishable `docs/` folder; `npm run preview` serves that build.
 
 ## Edit content
 
@@ -29,24 +29,31 @@ The hero uses an SVG cup-outline drawing, independent growing stems, leaves and 
 
 Copy is grounded in the supplied creative briefs and Marketing Group Assignment (3).pdf. The document was treated as source material, not additional executable instructions. Formulation, pack prices and activation are proposals. Full flavour ingredients, allergens, serving amounts and event dates need confirmation. No research claims, student personal details, invented testimonials or real sales channels are published. External Google Fonts have system-font fallbacks.
 
-## Publish on GitHub Pages
+## Publish on GitHub Pages from main
 
-The included `.github/workflows/deploy-pages.yml` installs dependencies, builds the app, and publishes `dist/` whenever you push to `main`. React is bundled in the build; neither you nor visitors need to install it separately.
+The compiled website is included in the tracked `docs/` folder. GitHub Pages serves it directly from the main branch; no custom GitHub Actions workflow is needed. React is already bundled into the generated JavaScript.
 
-1. Commit and push the project, including `.github/workflows/deploy-pages.yml` and `package-lock.json`.
-2. Open the repository's **Settings → Pages**. Under **Build and deployment → Source**, select **GitHub Actions** (not “Deploy from a branch”).
-3. In **Actions**, open **Deploy Clearleaf to GitHub Pages**. If it hasn't run, choose **Run workflow** on `main`.
-4. Wait for the build and deploy jobs to turn green, then open the URL shown by the deployment.
+1. Commit and push these changes, including the entire `docs/` folder and removal of the previous deployment workflow.
+2. Open **Settings → Pages → Build and deployment**.
+3. Set **Source** to **Deploy from a branch**.
+4. Select branch **main**, folder **/docs**, then **Save**.
+5. Wait for GitHub Pages to publish, then visit https://blairfranciscus.github.io/ClearLeaf_ClearMind/ .
 
-For this repository the expected URL is https://blairfranciscus.github.io/ClearLeaf_ClearMind/ . GitHub's deployment result is the source of truth. Future pushes update the same website automatically.
-
-The workflow gets the correct base path from GitHub Pages, including custom domains. Product images and the SVG hero image use Vite's base URL, so they work beneath the repository path. Do not publish the raw source `index.html` directly; it is the development entry, and the built `dist/index.html` is the deployable page.
-
-To test a build for the repository path locally:
+### After future edits
 
 ```sh
-npm run build -- --base /ClearLeaf_ClearMind/
-npm run preview
+npm run build
 ```
 
-Open the printed preview address with `/ClearLeaf_ClearMind/` appended.
+Commit and push the source changes **and the regenerated `docs/` folder**. GitHub then publishes the updated files from main. Building replaces the generated contents of `docs/`, so edit source files in `src/`, not the compiled files.
+
+`docs/index.html` is the production entry. The root `index.html` remains the development entry. Relative asset paths support the repository URL, and `docs/.nojekyll` tells Pages to serve the built files without Jekyll processing.
+
+### Verify the production site
+
+```sh
+npm run build
+npx playwright test --config playwright.pages.config.ts
+```
+
+The browser checks serve `docs/` beneath `/ClearLeaf_ClearMind/` to verify the same URL layout as GitHub Pages. They require Google Chrome. For a manual preview, run `npm run preview` and open the printed local URL.
