@@ -34,7 +34,8 @@
   background: var(--pink);
 }
 
-/* Reveal the unaltered garden from its stems upward, once per page visit.
+/* Reveal the unaltered garden from its stems upward over two seconds,
+ * with a gentle start and finish, once per page visit.
  * A white cover moves away; the flowers themselves never scale or distort.
  * The wrapper keeps its full height, so the page layout does not jump.
  */
@@ -55,7 +56,7 @@
 }
 .footer-garden[data-reveal-state="revealed"]::after {
   transform: scaleY(0);
-  transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 2s cubic-bezier(0.45, 0, 0.25, 1);
 }
 @media (prefers-reduced-motion: reduce) {
   .teacup-float {

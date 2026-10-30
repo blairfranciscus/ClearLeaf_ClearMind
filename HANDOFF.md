@@ -98,3 +98,7 @@ The user approved only the footer-flower scroll effect (not section reveals or o
 Reduced-motion users see the full image immediately with no overlay. Observer-unavailable fallback also leaves it visible. A motion-preference listener immediately reveals/disconnects if the preference changes while pending; lifecycle cleanup handles unmount/React StrictMode.
 
 Final production build passed; **all 13 Playwright checks passed**. The new tests verify a once-only reveal on each of the six pages plus legacy Packaging, no replay after scrolling away/back, reduced-motion visibility and observer fallback. Existing tests continue to cover full-width footer geometry, image ratios, mobile/wide layouts, cart, cup float and sharing metadata. docs/ is rebuilt and ready for the user's commit/push. No remote push or deployment was performed.
+
+## Footer timing refinement — 31 October 2026
+
+The user requested a slower, roughly two-second reveal that feels like flowers growing out of the ground. Updated only the footer transition in src/motion.css from 1.4s ease-out to 2s cubic-bezier(0.45, 0, 0.25, 1), providing a gentler start and finish. The bottom-up reveal, original artwork, full-width layout, once-per-visit behaviour and reduced-motion handling remain the same. Rebuild docs/ for the user's push.

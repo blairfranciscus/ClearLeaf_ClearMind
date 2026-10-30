@@ -91,6 +91,6 @@ All eleven browser checks pass. The image audit checks loading, natural proporti
 
 ## Footer flower reveal
 
-The full-width footer garden reveals gently from its stems upward when it enters view. The effect runs once per page visit on every page, including the legacy Packaging URL. The original image, colours, size and page height stay unchanged. Reduced-motion settings and browsers without IntersectionObserver show the complete garden immediately. Switching to reduced motion while the reveal is pending also reveals it immediately.
+The full-width footer garden reveals from its stems upward over two seconds when it enters view, with a gentle start and finish. The effect runs once per page visit on every page, including the legacy Packaging URL. The original image, colours, size and page height stay unchanged. Reduced-motion settings and browsers without IntersectionObserver show the complete garden immediately. Switching to reduced motion while the reveal is pending also reveals it immediately.
 
 The shared FooterGarden logic is in `src/components.tsx`; the white-cover reveal is in `src/motion.css`. The observer disconnects after the first reveal and cleans up on unmount. All thirteen browser checks pass, including once-only scroll behaviour on all seven HTML entries, reduced motion and observer fallback.
