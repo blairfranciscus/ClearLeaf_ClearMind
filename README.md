@@ -61,6 +61,6 @@ Tests require Google Chrome. They exercise page navigation and reload, cart pers
 
 ## Colours and reverting to the previous palette
 
-The current palette uses light pink `#FFE7E4`, garden-green Clearleaf lettering `#3E8340`, deeper green buttons `#356F38`, cream panels `#F7EFDA` and pale sage accents `#DADEBB`. The overrides are in `src/palette.css`, with original values recorded in comments. `src/styles.css` is preserved unchanged.
+The page background is the original near-white `#FFFAF6`. Light pink `#FFE7E4` is reserved for the slim banner, small badges, gingham details, selected panels, link borders and hover states. The palette keeps garden-green Clearleaf lettering `#3E8340`, deeper green buttons `#356F38`, cream panels `#F7EFDA` and pale sage accents `#DADEBB`. The overrides are in `src/palette.css`, with original values recorded in comments. `src/styles.css` is preserved unchanged.
 
 To restore the previous look, comment out `import "./palette.css";` in `src/main.tsx`, run `npm run build`, then commit and push all updated `docs/` files. Drawing assets are untouched. The new palette displays the drawings without multiply blending so the surrounding pink does not tint their original colours.

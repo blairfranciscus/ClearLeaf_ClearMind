@@ -60,3 +60,7 @@ The user approved applying the recommended palette and asked for the old colours
 To revert: comment out `import "./palette.css";`, run `npm run build`, commit/push updated docs. This restores the earlier colour and blending rules. Drawing image files and the original product colours in content.ts are unchanged. The palette override uses normal compositing instead of multiply on drawings so changing the surrounding colour does not tint them.
 
 The palette build passed and all seven existing browser tests passed. White text on primary buttons has 6.03:1 contrast, body text on pink 8.60:1. Secondary buttons use the darker hover green on sage for readable hover text. The user will push changes themselves; no commit, push or deployment was performed.
+
+## Current colour direction — near-white restored
+
+The user found the full-page #FFE7E4 pink too strong and explicitly requested returning to the original almost-white background before adding animations. `src/palette.css` now sets the main background to the original #FFFAF6. The same #FFE7E4 pink is kept as an accent in the slim top banner, cart badge, gingham, selected panels, link borders, text-link/quantity hover states and secondary-button hover. Garden-green lettering #3E8340 and deeper green buttons #356F38 remain. Drawings, page structure and original stylesheet are unchanged. No animations have been added in this task. The rollback import and original colour comments remain intact.

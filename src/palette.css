@@ -9,22 +9,24 @@
  * Remove (or comment out) import "./palette.css" in src/main.tsx, then run
  * npm run build and commit/push the regenerated docs/ folder.
  *
- * Main background: #FFE7E4. Clearleaf name: #3E8340.
+ * Main background restored to the original near-white #FFFAF6.
+ * The previous full-page pink #FFE7E4 is now an accent only.
+ * Clearleaf name: #3E8340.
  * Buttons: #356F38, slightly deeper than the Clearleaf green.
  */
 :root {
   /* Original page background: #FFFAF6; body text: #344731. */
-  background: #ffe7e4;
+  background: #fffaf6;
   color: #304730;
 
-  --page-pink: #ffe7e4;
+  --page-background: #fffaf6;
   --wordmark-green: #3e8340;
   --body-ink: #304730;
   --button-hover: #2d6031;
   --paper: #ffffff;
 
   --green: #356f38; /* Original: #40583A. */
-  --pink: #ffe7e4; /* Original: #F0D9DD. */
+  --pink: #ffe7e4; /* Accent only. Original accent: #F0D9DD. */
   --rose: #356f38; /* Original rose text/accent: #86515F. */
   --sage: #dadebb; /* Original: #E7ECDD. */
   --line: #d6cec1; /* Original: #DFDDD1. */
@@ -44,7 +46,7 @@ h2 em {
 
 /* Original selection background: #EED3DC. */
 ::selection {
-  background: var(--sage);
+  background: var(--pink);
   color: var(--body-ink);
 }
 /* Original focus outline: #9A586B. */
@@ -57,13 +59,13 @@ summary:focus-visible {
 
 /* Original top banner background: #F2E3E5; text: #5F4B50. */
 .top-note {
-  background: #ffdfe0;
+  background: var(--pink);
   color: var(--body-ink);
 }
 /* Original cart badge background: #EDF0E6; border: #C8D2BC. */
 .cart-count {
-  background: var(--sage);
-  border-color: #a9b58c;
+  background: var(--pink);
+  border-color: #e7bfc3;
 }
 
 /* Original filled button text: #FFFDF9; hover background: #526A48. */
@@ -72,23 +74,31 @@ summary:focus-visible {
 }
 .button:hover {
   background: var(--button-hover);
+  border-color: #e7bfc3;
 }
 /* Secondary button background was transparent; retain the outlined style. */
 .button.secondary {
   color: var(--green);
 }
 .button.secondary:hover {
-  background: var(--sage);
+  background: var(--pink);
   color: var(--button-hover);
 }
 /* Original text-link border: #A7B397; remove-button border: #B99B9E. */
 .text-link,
 .remove-button {
   color: var(--green);
-  border-bottom-color: #91a374;
+  border-bottom-color: #e7bfc3;
+}
+.text-link:hover,
+.remove-button:hover {
+  background: var(--pink);
 }
 .quantity button {
   color: var(--green);
+}
+.quantity button:not(:disabled):hover {
+  background: var(--pink);
 }
 /* Original toast background: #40583A. */
 .toast {
@@ -97,10 +107,10 @@ summary:focus-visible {
 
 /* Original gingham base: #F9EFEC; checks: #E5ABB31C; border: #EAD7D7. */
 .gingham-paper {
-  background-color: var(--cream);
+  background-color: var(--page-background);
   background-image:
-    linear-gradient(90deg, #efaca42b 50%, transparent 50%),
-    linear-gradient(#efaca42b 50%, transparent 50%);
+    linear-gradient(90deg, #ffe7e480 50%, transparent 50%),
+    linear-gradient(#ffe7e480 50%, transparent 50%);
   border-color: #e5c5bc;
 }
 
@@ -120,7 +130,7 @@ summary:focus-visible {
 }
 /* Original sketch panel: #F1E2E3; border: #E0CBD0. */
 .sketch-paper {
-  background: #ffdfe0;
+  background: var(--pink);
   border-color: #e7bfc3;
 }
 /* Original product concept notice: #F3ECE4. */
@@ -152,12 +162,12 @@ summary:focus-visible {
 }
 /* Original join strip: #F5E3E6; border: #E7CDD2. */
 .join-strip {
-  background: #ffdfe0;
+  background: var(--pink);
   border-color: #e7bfc3;
 }
 /* Original pink opportunity panel: #F6E6E9; border: #E3CBD0. */
 .opportunity.pink {
-  background: #ffdfe0;
+  background: var(--pink);
   border-color: #e7bfc3;
 }
 /* Original sage opportunity panel: #EDF0E4; border: #D6DFC8. */

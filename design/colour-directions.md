@@ -18,3 +18,7 @@ Calculated contrast: white on #356F38 is 6.03:1; #304730 on #FFE7E4 is 8.60:1. #
 Alternative direction: #FFDFE0 background with #2E6A68 wordmark and #255956 buttons.
 
 The preview shows the original artwork without blend modes. When applying a palette, keep illustrations on neutral paper and remove multiply blending where a background change would tint their colours. Do not recolour, filter, regenerate or modify the image assets.
+
+## Revision after seeing the live pink background
+
+The user prefers the original near-white #FFFAF6 for the main background. The previously proposed #FFE7E4 remains an accent only (small fills, borders and hover states). Garden-green lettering and deeper green buttons are retained. The comparison image above records the earlier full-pink proposal, not the current implementation.
