@@ -88,3 +88,9 @@ The original footer flowers now sit outside the content-width wrapper as the fin
 About and Join Our Team use matching white paper frames with pink borders for the original line-drawn cup, so the screenshot paper does not form an inset white box against a different-coloured backing. The campus photograph and campaign poster retain their full aspect ratios. Artwork source files are unchanged by this layout cleanup.
 
 All eleven browser checks pass. The image audit checks loading, natural proportions and resolution, full-width flowers at the document bottom on all six pages at 320px, 390px and 1440px, and a separate 2560px-wide footer check.
+
+## Footer flower reveal
+
+The full-width footer garden reveals gently from its stems upward when it enters view. The effect runs once per page visit on every page, including the legacy Packaging URL. The original image, colours, size and page height stay unchanged. Reduced-motion settings and browsers without IntersectionObserver show the complete garden immediately. Switching to reduced motion while the reveal is pending also reveals it immediately.
+
+The shared FooterGarden logic is in `src/components.tsx`; the white-cover reveal is in `src/motion.css`. The observer disconnects after the first reveal and cleans up on unmount. All thirteen browser checks pass, including once-only scroll behaviour on all seven HTML entries, reduced motion and observer fallback.

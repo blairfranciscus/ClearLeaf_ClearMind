@@ -406,3 +406,62 @@ test("footer flowers span a wide screen without stretching or horizontal overflo
     .locator(".site-footer")
     .screenshot({ path: "/tmp/clearleaf-footer-wide.png" });
 });
+
+test("footer flowers reveal once on every page when scrolled into view", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  for (const file of [...routes, "packaging.html"]) {
+    await page.goto(`./${file}`);
+    const garden = page.locator(".footer-garden");
+    await expect(garden).toHaveAttribute("data-reveal-state", "pending");
+    await garden.scrollIntoViewIfNeeded();
+    await expect(garden).toHaveAttribute("data-reveal-state", "revealed");
+    await expect
+      .poll(() =>
+        garden.evaluate(
+          (element) =>
+            new DOMMatrix(getComputedStyle(element, "::after").transform).m22,
+        ),
+      )
+      .toBe(0);
+    await page.locator("h1").scrollIntoViewIfNeeded();
+    await garden.scrollIntoViewIfNeeded();
+    await expect(garden).toHaveAttribute("data-reveal-state", "revealed");
+    expect(
+      await garden.evaluate(
+        (element) =>
+          new DOMMatrix(getComputedStyle(element, "::after").transform).m22,
+      ),
+    ).toBe(0);
+  }
+});
+
+test("footer flowers remain visible with reduced motion or no observer support", async ({
+  page,
+}) => {
+  await page.goto("./");
+  const garden = page.locator(".footer-garden");
+  await expect(garden).toHaveAttribute("data-reveal-state", "visible");
+  expect(
+    await garden.evaluate(
+      (element) => getComputedStyle(element, "::after").display,
+    ),
+  ).toBe("none");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() =>
+    Object.defineProperty(window, "IntersectionObserver", {
+      value: undefined,
+      configurable: true,
+    }),
+  );
+  await page.reload();
+  await expect(garden).toHaveAttribute("data-reveal-state", "visible");
+  expect(
+    await garden.evaluate(
+      (element) =>
+        new DOMMatrix(getComputedStyle(element, "::after").transform).m22,
+    ),
+  ).toBe(0);
+});

@@ -33,11 +33,38 @@
 .motion-toggle:hover {
   background: var(--pink);
 }
+
+/* Reveal the unaltered garden from its stems upward, once per page visit.
+ * A white cover moves away; the flowers themselves never scale or distort.
+ * The wrapper keeps its full height, so the page layout does not jump.
+ */
+.footer-garden {
+  position: relative;
+}
+.footer-garden::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform-origin: center top;
+  transform: scaleY(0);
+  pointer-events: none;
+}
+.footer-garden[data-reveal-state="pending"]::after {
+  transform: scaleY(1);
+}
+.footer-garden[data-reveal-state="revealed"]::after {
+  transform: scaleY(0);
+  transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
 @media (prefers-reduced-motion: reduce) {
   .teacup-float {
     animation: none;
   }
   .motion-toggle {
+    display: none;
+  }
+  .footer-garden::after {
     display: none;
   }
 }

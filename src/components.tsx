@@ -1,6 +1,6 @@
 import { asset, pages, type Page, type Tea } from "./content";
 import { useCart } from "./cart";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export function Header({ page }: { page: Page }) {
   const { count } = useCart();
@@ -51,6 +51,62 @@ export function Header({ page }: { page: Page }) {
     </>
   );
 }
+function FooterGarden() {
+  const garden = useRef<HTMLDivElement>(null);
+  const [revealState, setRevealState] = useState("visible");
+
+  useEffect(() => {
+    const element = garden.current;
+    const motionPreference = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    // The artwork stays visible if motion is reduced or observation is unavailable.
+    if (
+      !element ||
+      motionPreference.matches ||
+      typeof IntersectionObserver !== "function"
+    )
+      return;
+
+    let active = true;
+    let revealed = false;
+    const reveal = () => {
+      if (!active || revealed) return;
+      revealed = true;
+      setRevealState("revealed");
+      observer.disconnect();
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) reveal();
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -24px 0px" },
+    );
+    const handleMotionChange = () => {
+      if (motionPreference.matches) reveal();
+    };
+
+    setRevealState("pending");
+    observer.observe(element);
+    motionPreference.addEventListener("change", handleMotionChange);
+    return () => {
+      active = false;
+      observer.disconnect();
+      motionPreference.removeEventListener("change", handleMotionChange);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={garden}
+      className="footer-garden"
+      data-reveal-state={revealState}
+      style={{ backgroundImage: `url("${asset("wildflower-border")}")` }}
+      aria-hidden="true"
+    />
+  );
+}
+
 export function Footer() {
   return (
     <footer className="site-footer">
@@ -78,11 +134,7 @@ export function Footer() {
         <p>A University of Sydney marketing concept.</p>
         <p>Concept store · no real purchases.</p>
       </div>
-      <div
-        className="footer-garden"
-        style={{ backgroundImage: `url("${asset("wildflower-border")}")` }}
-        aria-hidden="true"
-      />
+      <FooterGarden />
     </footer>
   );
 }
