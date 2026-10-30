@@ -74,20 +74,15 @@ export function Footer() {
           <a href="./cart.html">My Cart</a>
         </nav>
       </div>
-      <div className="wrap">
-        <img
-          className="flower-border"
-          src={asset("wildflower-border")}
-          width="2532"
-          height="666"
-          alt=""
-          loading="lazy"
-        />
-        <div className="footer-bottom">
-          <p>A University of Sydney marketing concept.</p>
-          <p>Concept store · no real purchases.</p>
-        </div>
+      <div className="wrap footer-bottom">
+        <p>A University of Sydney marketing concept.</p>
+        <p>Concept store · no real purchases.</p>
       </div>
+      <div
+        className="footer-garden"
+        style={{ backgroundImage: `url("${asset("wildflower-border")}")` }}
+        aria-hidden="true"
+      />
     </footer>
   );
 }
@@ -128,11 +123,11 @@ export function Sachet({ tea }: { tea: Tea }) {
   return (
     <svg
       className="sachet-artwork"
-      viewBox={`${tea.offset} 0 ${tea.cropWidth} 242`}
+      viewBox={tea.viewBox}
       role="img"
       aria-label={`${tea.name} tea sachet`}
     >
-      <image href={asset("original-sachets")} width="1924" height="242" />
+      <image href={asset("sachets-transparent-v1")} width="2171" height="724" />
     </svg>
   );
 }

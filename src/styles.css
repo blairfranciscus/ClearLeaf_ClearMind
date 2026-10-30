@@ -257,7 +257,8 @@ summary:focus-visible {
 }
 .hero-art img {
   mix-blend-mode: multiply;
-  width: 100%;
+  width: 94%;
+  margin-inline: auto;
   transform: rotate(-2deg);
 }
 figcaption {
@@ -314,7 +315,7 @@ figcaption {
 .sachet-artwork {
   display: block;
   width: 100%;
-  max-width: 380px;
+  max-width: 340px;
   height: auto;
   overflow: hidden;
   mix-blend-mode: multiply;
@@ -375,10 +376,13 @@ figcaption {
 .footer-content nav a:hover {
   text-decoration: underline;
 }
-.flower-border {
+.footer-garden {
   width: 100%;
-  mix-blend-mode: multiply;
-  margin-top: 20px;
+  height: clamp(180px, 24vw, 360px);
+  background-color: #ffffff;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: center bottom;
 }
 .footer-bottom {
   display: flex;
@@ -386,6 +390,7 @@ figcaption {
   gap: 20px;
   border-top: 1px solid #dcd9cd;
   padding-block: 20px;
+  margin-top: 20px;
 }
 .footer-bottom p {
   font-size: 16px;
@@ -1099,9 +1104,6 @@ dd {
   }
   .site-footer {
     padding-top: 35px;
-  }
-  .flower-border {
-    margin-top: 25px;
   }
   .footer-bottom {
     flex-direction: column;

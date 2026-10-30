@@ -1,0 +1,43 @@
+/* Gentle movement of the supplied artwork; its pixels and colours are unchanged. */
+@keyframes clearleaf-teacup-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .teacup-float {
+    animation: clearleaf-teacup-float 8s ease-in-out infinite;
+  }
+  .teacup-float.is-paused {
+    animation-play-state: paused;
+  }
+}
+.motion-toggle {
+  display: block;
+  margin: 12px auto 0;
+  padding: 6px 10px;
+  border: 0;
+  border-bottom: 1px solid #e7bfc3;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--green);
+  font-family: "Avenir Next", "Trebuchet MS", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.motion-toggle:hover {
+  background: var(--pink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .teacup-float {
+    animation: none;
+  }
+  .motion-toggle {
+    display: none;
+  }
+}

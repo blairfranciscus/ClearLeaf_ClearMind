@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { asset, teas } from "../content";
 import { PageLink, Sachet } from "../components";
 export default function Home() {
+  const [paused, setPaused] = useState(false);
   return (
     <>
       <section className="home-hero wrap">
@@ -28,15 +30,30 @@ export default function Home() {
         </div>
         <figure className="hero-art">
           <div className="gingham-paper">
-            <img
-              src={asset("original-teacup")}
-              alt="Your original Clearleaf teacup illustration, filled with pink, yellow and purple flowers"
-              width="1192"
-              height="1180"
-              fetchPriority="high"
-            />
+            <div
+              id="homepage-teacup"
+              className={`teacup-float${paused ? " is-paused" : ""}`}
+            >
+              <img
+                src={asset("teacup-transparent-v1")}
+                alt="Clearleaf teacup illustration, filled with pink, yellow and purple flowers"
+                width="1268"
+                height="1241"
+                fetchPriority="high"
+              />
+            </div>
           </div>
-          <figcaption>for your next tea break ♡</figcaption>
+          <figcaption>
+            <span>for your next tea break ♡</span>
+            <button
+              type="button"
+              className="motion-toggle"
+              aria-controls="homepage-teacup"
+              onClick={() => setPaused(!paused)}
+            >
+              {paused ? "Play teacup animation" : "Pause teacup animation"}
+            </button>
+          </figcaption>
         </figure>
       </section>
       <section className="tea-preview wrap">

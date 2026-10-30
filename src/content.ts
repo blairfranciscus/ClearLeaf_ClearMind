@@ -9,8 +9,7 @@ export const teas = [
     description:
       "The pink one, with berry illustrations and our handwritten lettering.",
     flavour: "Berry-inspired",
-    offset: 0,
-    cropWidth: 646,
+    viewBox: "8 279 716 176",
   },
   {
     id: "mint",
@@ -18,8 +17,7 @@ export const teas = [
     colour: "#dfeced",
     description: "The blue one, wrapped in illustrated mint leaves.",
     flavour: "Mint-inspired",
-    offset: 646,
-    cropWidth: 620,
+    viewBox: "732 279 692 176",
   },
   {
     id: "lemon",
@@ -27,8 +25,7 @@ export const teas = [
     colour: "#f5efcc",
     description: "The yellow one, with lemon and botanical illustrations.",
     flavour: "Lemon myrtle",
-    offset: 1266,
-    cropWidth: 658,
+    viewBox: "1432 279 716 176",
   },
 ];
 export type Tea = (typeof teas)[number];

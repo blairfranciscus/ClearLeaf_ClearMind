@@ -16,6 +16,16 @@ async function loadImages(page: Page) {
   await page.waitForFunction(() =>
     [...document.images].every((i) => i.complete),
   );
+  // Decode the decorative background too; it is not a document.images entry.
+  await page.locator(".footer-garden").evaluate(async (element) => {
+    const url = getComputedStyle(element).backgroundImage.match(
+      /url\(["']?(.*?)["']?\)/,
+    )?.[1];
+    if (!url) throw new Error("Footer flower image missing");
+    const image = new Image();
+    image.src = url;
+    await image.decode();
+  });
   expect(
     await page
       .locator("img")
@@ -141,6 +151,27 @@ for (const width of [1440, 390, 320])
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
+      const imageProblems = await page.locator("img").evaluateAll((images) =>
+        images
+          .filter((image) => {
+            const naturalRatio = image.naturalWidth / image.naturalHeight;
+            const displayedRatio = image.clientWidth / image.clientHeight;
+            return (
+              image.clientWidth > image.naturalWidth + 1 ||
+              Math.abs(displayedRatio / naturalRatio - 1) > 0.02
+            );
+          })
+          .map((image) => image.getAttribute("src")),
+      );
+      expect(imageProblems).toEqual([]);
+      const garden = await page.locator(".footer-garden").boundingBox();
+      expect(garden).not.toBeNull();
+      expect(Math.abs(garden!.x)).toBeLessThan(1);
+      expect(Math.abs(garden!.width - width)).toBeLessThan(1);
+      const pageHeight = await page.evaluate(
+        () => document.documentElement.scrollHeight,
+      );
+      expect(Math.abs(garden!.y + garden!.height - pageHeight)).toBeLessThan(2);
       const tiny = await page
         .locator("p,a,button,select,dt,dd,figcaption")
         .evaluateAll((elements) =>
@@ -188,4 +219,190 @@ test("campus programme, influencer opportunities and legacy packaging link work"
   await expect(
     page.getByRole("heading", { name: "Berrylicious", exact: true }),
   ).toBeVisible();
+});
+
+test("teacup floats, can be paused and respects reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("./");
+  const cup = page.locator("#homepage-teacup");
+  await expect(cup).toBeVisible();
+  expect(await cup.evaluate((el) => getComputedStyle(el).animationName)).toBe(
+    "clearleaf-teacup-float",
+  );
+  await page
+    .getByRole("button", { name: "Pause teacup animation", exact: true })
+    .click();
+  await cup.evaluate(async (el) => {
+    await Promise.all(el.getAnimations().map((animation) => animation.ready));
+  });
+  expect(
+    await cup.evaluate((el) => getComputedStyle(el).animationPlayState),
+  ).toBe("paused");
+  const pausedTransform = await cup.evaluate(
+    (el) => getComputedStyle(el).transform,
+  );
+  await page.waitForTimeout(180);
+  expect(await cup.evaluate((el) => getComputedStyle(el).transform)).toBe(
+    pausedTransform,
+  );
+  await page
+    .getByRole("button", { name: "Play teacup animation", exact: true })
+    .click();
+  expect(
+    await cup.evaluate((el) => getComputedStyle(el).animationPlayState),
+  ).toBe("running");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(await cup.evaluate((el) => getComputedStyle(el).animationName)).toBe(
+    "none",
+  );
+  await expect(
+    page.getByRole("button", { name: "Pause teacup animation", exact: true }),
+  ).toBeHidden();
+});
+
+test("share metadata and teacup icons work without JavaScript on every page", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    baseURL,
+  });
+  try {
+    const page = await context.newPage();
+    const expected =
+      "https://blairfranciscus.github.io/ClearLeaf_ClearMind/social/clearleaf-share-v1.png";
+    for (const file of [...routes, "packaging.html"]) {
+      await page.goto(`./${file}`);
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+      await expect(
+        page.locator('meta[property="og:image:width"]'),
+      ).toHaveAttribute("content", "1200");
+      await expect(
+        page.locator('meta[property="og:image:height"]'),
+      ).toHaveAttribute("content", "630");
+      await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+        "content",
+        "summary_large_image",
+      );
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
+        "content",
+        expected,
+      );
+      const icon = await page
+        .locator('link[rel="icon"][sizes="32x32"]')
+        .getAttribute("href");
+      expect(new URL(icon!, page.url()).pathname).toBe(
+        "/ClearLeaf_ClearMind/favicon-32.png",
+      );
+      await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+        "content",
+        await page.title(),
+      );
+      const canonical = await page
+        .locator('link[rel="canonical"]')
+        .getAttribute("href");
+      expect(canonical).toMatch(
+        /^https:\/\/blairfranciscus\.github\.io\/ClearLeaf_ClearMind\//,
+      );
+    }
+    for (const [file, width, height] of [
+      ["favicon-32.png", 32, 32],
+      ["favicon-48.png", 48, 48],
+      ["apple-touch-icon.png", 180, 180],
+      ["favicon-192.png", 192, 192],
+      ["favicon-512.png", 512, 512],
+      ["social/clearleaf-share-v1.png", 1200, 630],
+    ] as const) {
+      const response = await context.request.get(new URL(file, baseURL).href);
+      expect(response.status()).toBe(200);
+      expect(response.headers()["content-type"]).toContain("image/png");
+      const data = await response.body();
+      expect(data.subarray(1, 4).toString()).toBe("PNG");
+      expect(data.readUInt32BE(16)).toBe(width);
+      expect(data.readUInt32BE(20)).toBe(height);
+    }
+    const ico = await context.request.get(new URL("favicon.ico", baseURL).href);
+    expect(ico.status()).toBe(200);
+    const manifestResponse = await context.request.get(
+      new URL("site.webmanifest", baseURL).href,
+    );
+    expect(manifestResponse.status()).toBe(200);
+    const manifest = await manifestResponse.json();
+    expect(manifest.icons).toHaveLength(2);
+  } finally {
+    await context.close();
+  }
+});
+
+test("homepage artwork uses transparent cutouts without white rectangular corners", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await loadImages(page);
+  await expect(page.locator("#homepage-teacup img")).toHaveAttribute(
+    "src",
+    /teacup-transparent-v1\.png$/,
+  );
+  await expect(page.locator(".tea-trio .sachet-artwork image")).toHaveCount(3);
+  const results = await page.evaluate(async () => {
+    const paths = [
+      document.querySelector("#homepage-teacup img").getAttribute("src"),
+      document
+        .querySelector(".tea-trio .sachet-artwork image")
+        .getAttribute("href"),
+    ];
+    return Promise.all(
+      paths.map(async (src) => {
+        const img = new Image();
+        img.src = src;
+        await img.decode();
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const sample = (x, y) => [...ctx.getImageData(x, y, 1, 1).data];
+        return {
+          src,
+          corners: [
+            [0, 0],
+            [img.naturalWidth - 1, 0],
+            [0, img.naturalHeight - 1],
+            [img.naturalWidth - 1, img.naturalHeight - 1],
+          ].map(([x, y]) => sample(x, y)[3]),
+          centre: sample(
+            Math.floor(img.naturalWidth * 0.5),
+            Math.floor(img.naturalHeight * 0.8),
+          ),
+        };
+      }),
+    );
+  });
+  for (const result of results) expect(result.corners).toEqual([0, 0, 0, 0]);
+  // Keep the white ceramic cup opaque; do not globally key out white pixels.
+  expect(results[0].centre[3]).toBeGreaterThanOrEqual(250);
+});
+
+test("footer flowers span a wide screen without stretching or horizontal overflow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 2560, height: 1200 });
+  await page.goto("./");
+  await loadImages(page);
+  const garden = await page.locator(".footer-garden").boundingBox();
+  expect(garden!.x).toBe(0);
+  expect(garden!.width).toBe(2560);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    2560,
+  );
+  expect(garden!.height).toBeLessThanOrEqual(360);
+  await page
+    .locator(".site-footer")
+    .screenshot({ path: "/tmp/clearleaf-footer-wide.png" });
 });

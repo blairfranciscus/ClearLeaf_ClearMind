@@ -130,7 +130,13 @@ summary:focus-visible {
 }
 /* Original sketch panel: #F1E2E3; border: #E0CBD0. */
 .sketch-paper {
-  background: var(--pink);
+  /* Match the original sketch's paper so it has no inset white box. */
+  background: var(--paper);
+  border-color: #e7bfc3;
+}
+.team-note.gingham-paper {
+  background-color: var(--paper);
+  background-image: none;
   border-color: #e7bfc3;
 }
 /* Original product concept notice: #F3ECE4. */
@@ -185,7 +191,6 @@ summary:focus-visible {
  */
 .hero-art img,
 .sachet-artwork,
-.flower-border,
 .sketch-paper img,
 .team-note img {
   mix-blend-mode: normal;
