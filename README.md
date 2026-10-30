@@ -58,3 +58,9 @@ npx playwright test --config playwright.pages.config.ts
 ```
 
 Tests require Google Chrome. They exercise page navigation and reload, cart persistence and totals, malformed storage, the legacy packaging address, the campaign poster and layouts at 1440px, 390px and 320px. The production test server uses the repository path `/ClearLeaf_ClearMind/` to catch hosting path mistakes.
+
+## Colours and reverting to the previous palette
+
+The current palette uses light pink `#FFE7E4`, garden-green Clearleaf lettering `#3E8340`, deeper green buttons `#356F38`, cream panels `#F7EFDA` and pale sage accents `#DADEBB`. The overrides are in `src/palette.css`, with original values recorded in comments. `src/styles.css` is preserved unchanged.
+
+To restore the previous look, comment out `import "./palette.css";` in `src/main.tsx`, run `npm run build`, then commit and push all updated `docs/` files. Drawing assets are untouched. The new palette displays the drawings without multiply blending so the surrounding pink does not tint their original colours.

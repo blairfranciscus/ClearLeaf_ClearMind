@@ -10,6 +10,8 @@ import Cart from "./pages/Cart";
 import Events from "./pages/Events";
 import Team from "./pages/Team";
 import "./styles.css";
+// Comment out the next import to restore the original website colours.
+import "./palette.css";
 function App() {
   const page = getPage();
   useEffect(() => {

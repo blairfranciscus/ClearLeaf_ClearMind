@@ -1,0 +1,182 @@
+/*
+ * PINK + GARDEN GREEN PALETTE — 30 October 2026
+ *
+ * The original colours are preserved in styles.css and recorded beside the
+ * overrides below. This file changes colours only; layout and artwork files
+ * remain unchanged.
+ *
+ * TO RESTORE THE ORIGINAL LOOK:
+ * Remove (or comment out) import "./palette.css" in src/main.tsx, then run
+ * npm run build and commit/push the regenerated docs/ folder.
+ *
+ * Main background: #FFE7E4. Clearleaf name: #3E8340.
+ * Buttons: #356F38, slightly deeper than the Clearleaf green.
+ */
+:root {
+  /* Original page background: #FFFAF6; body text: #344731. */
+  background: #ffe7e4;
+  color: #304730;
+
+  --page-pink: #ffe7e4;
+  --wordmark-green: #3e8340;
+  --body-ink: #304730;
+  --button-hover: #2d6031;
+  --paper: #ffffff;
+
+  --green: #356f38; /* Original: #40583A. */
+  --pink: #ffe7e4; /* Original: #F0D9DD. */
+  --rose: #356f38; /* Original rose text/accent: #86515F. */
+  --sage: #dadebb; /* Original: #E7ECDD. */
+  --line: #d6cec1; /* Original: #DFDDD1. */
+  --muted: #52624b; /* Original: #5C6758. */
+  --cream: #f7efda; /* Original: #FFFAF6. */
+}
+
+/* Original wordmark inherited #344731. Large italic titles used #86515F. */
+.brand,
+h1 em,
+h2 em {
+  color: var(--wordmark-green);
+}
+.brand span {
+  color: var(--body-ink);
+}
+
+/* Original selection background: #EED3DC. */
+::selection {
+  background: var(--sage);
+  color: var(--body-ink);
+}
+/* Original focus outline: #9A586B. */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline-color: var(--green);
+}
+
+/* Original top banner background: #F2E3E5; text: #5F4B50. */
+.top-note {
+  background: #ffdfe0;
+  color: var(--body-ink);
+}
+/* Original cart badge background: #EDF0E6; border: #C8D2BC. */
+.cart-count {
+  background: var(--sage);
+  border-color: #a9b58c;
+}
+
+/* Original filled button text: #FFFDF9; hover background: #526A48. */
+.button {
+  color: #ffffff;
+}
+.button:hover {
+  background: var(--button-hover);
+}
+/* Secondary button background was transparent; retain the outlined style. */
+.button.secondary {
+  color: var(--green);
+}
+.button.secondary:hover {
+  background: var(--sage);
+  color: var(--button-hover);
+}
+/* Original text-link border: #A7B397; remove-button border: #B99B9E. */
+.text-link,
+.remove-button {
+  color: var(--green);
+  border-bottom-color: #91a374;
+}
+.quantity button {
+  color: var(--green);
+}
+/* Original toast background: #40583A. */
+.toast {
+  background: var(--green);
+}
+
+/* Original gingham base: #F9EFEC; checks: #E5ABB31C; border: #EAD7D7. */
+.gingham-paper {
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(90deg, #efaca42b 50%, transparent 50%),
+    linear-gradient(#efaca42b 50%, transparent 50%);
+  border-color: #e5c5bc;
+}
+
+/* Original campus panel: #EDF0E5; border: #DCE3D2. */
+.campus-invitation {
+  background: var(--cream);
+  border-color: #dcd2b8;
+}
+/* Original footer: #F6F0E9; border: #E5DFD5. */
+.site-footer {
+  background: var(--cream);
+  border-top-color: #dcd2b8;
+}
+/* Original footer-bottom border: #DCD9CD. */
+.footer-bottom {
+  border-top-color: #d8cfb7;
+}
+/* Original sketch panel: #F1E2E3; border: #E0CBD0. */
+.sketch-paper {
+  background: #ffdfe0;
+  border-color: #e7bfc3;
+}
+/* Original product concept notice: #F3ECE4. */
+.concept-note {
+  background: var(--cream);
+}
+/* Original cart summary: #F9ECEF; border: #E0CCCF. */
+.cart-summary {
+  background: var(--cream);
+  border-color: #dcd2b8;
+}
+/* Original total-row borders: #DEC7CC. */
+.total-row {
+  border-block-color: #d8cfb7;
+}
+/* Original empty-cart panel: #F5EDE7; border: #E5D9CD. */
+.empty-cart {
+  background: var(--cream);
+  border-color: #dcd2b8;
+}
+/* Original programme panels: #EFF0E5; border: #DCE2D1. */
+.programme-grid article {
+  background: var(--cream);
+  border-color: #dcd2b8;
+}
+/* Original programme numbers: #677955. */
+.programme-number {
+  color: var(--green);
+}
+/* Original join strip: #F5E3E6; border: #E7CDD2. */
+.join-strip {
+  background: #ffdfe0;
+  border-color: #e7bfc3;
+}
+/* Original pink opportunity panel: #F6E6E9; border: #E3CBD0. */
+.opportunity.pink {
+  background: #ffdfe0;
+  border-color: #e7bfc3;
+}
+/* Original sage opportunity panel: #EDF0E4; border: #D6DFC8. */
+.opportunity.sage {
+  background: var(--sage);
+  border-color: #bbc59b;
+}
+
+/*
+ * ARTWORK COLOUR PROTECTION
+ * Original CSS used mix-blend-mode: multiply for these drawings. On a new
+ * background that would tint their colours. Normal compositing displays the
+ * original pixels; no filters, recolouring or asset modifications are used.
+ * Removing this stylesheet restores the original compositing as well.
+ */
+.hero-art img,
+.sachet-artwork,
+.flower-border,
+.sketch-paper img,
+.team-note img {
+  mix-blend-mode: normal;
+}

@@ -52,3 +52,11 @@ Changes in this session are local. The assistant has not committed, pushed or de
 ## Next session
 
 Read this note and `git status` first. Continue within the current six-page direction, keep GitHub deployment configuration, use any new uploaded drawings and incorporate user feedback. Add real ambassador contact details only when supplied. If changing implementation, rebuild `docs/` before the user pushes. Do not repeat the old deployment troubleshooting without new evidence.
+
+## Latest colour update — 30 October 2026
+
+The user approved applying the recommended palette and asked for the old colours to remain commented so they can revert. `src/palette.css` is now imported after `src/styles.css` in `src/main.tsx`. It changes colours only: background #FFE7E4, Clearleaf wordmark and large accent headings #3E8340, buttons and small accents #356F38, body text #304730, cream panels #F7EFDA, pale sage #DADEBB. Original values are recorded in comments next to overrides. The original `src/styles.css` is completely unchanged.
+
+To revert: comment out `import "./palette.css";`, run `npm run build`, commit/push updated docs. This restores the earlier colour and blending rules. Drawing image files and the original product colours in content.ts are unchanged. The palette override uses normal compositing instead of multiply on drawings so changing the surrounding colour does not tint them.
+
+The palette build passed and all seven existing browser tests passed. White text on primary buttons has 6.03:1 contrast, body text on pink 8.60:1. Secondary buttons use the darker hover green on sage for readable hover text. The user will push changes themselves; no commit, push or deployment was performed.
