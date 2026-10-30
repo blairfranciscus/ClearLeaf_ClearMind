@@ -1,118 +1,191 @@
 import { test, expect, type Page } from "@playwright/test";
-
-async function loadArtwork(page: Page) {
+const routes = [
+  "index.html",
+  "about.html",
+  "products.html",
+  "cart.html",
+  "events.html",
+  "join-our-team.html",
+];
+async function loadImages(page: Page) {
   await page.locator("img").evaluateAll((images) =>
     images.forEach((image) => {
       image.loading = "eager";
     }),
   );
   await page.waitForFunction(() =>
-    [...document.images].every((image) => image.complete),
+    [...document.images].every((i) => i.complete),
   );
   expect(
     await page
       .locator("img")
-      .evaluateAll(
-        (images) => images.filter((image) => !image.naturalWidth).length,
-      ),
+      .evaluateAll((images) => images.filter((i) => !i.naturalWidth).length),
   ).toBe(0);
 }
 
-test("real page navigation works, including direct refresh and browser back", async ({
+test("all six pages have real navigation, direct reload and browser history", async ({
   page,
 }) => {
   const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("./");
-  await expect(page).toHaveTitle("Clearleaf — Clear Mind, Clearleaf.");
+  const nav = () => page.getByRole("navigation", { name: "Main navigation" });
+  for (const [name, file] of [
+    ["About", "about.html"],
+    ["Our Products", "products.html"],
+    ["Events", "events.html"],
+    ["Join Our Team", "join-our-team.html"],
+  ]) {
+    await nav().getByRole("link", { name, exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${file.replace(".", "\\.")}$`));
+    await page.reload();
+    await expect(
+      nav().getByRole("link", { name, exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+  }
   await page
-    .getByRole("navigation", { name: "Main navigation" })
-    .getByRole("link", { name: "Packaging", exact: true })
+    .getByRole("link", { name: /My Cart/ })
+    .first()
     .click();
-  await expect(page).toHaveURL(/\/packaging\.html$/);
-  await expect(
-    page.getByRole("heading", { name: "Berrylicious", exact: true }),
-  ).toBeVisible();
-  await page.reload();
-  await expect(
-    page
-      .getByRole("navigation", { name: "Main navigation" })
-      .getByRole("link", { name: "Packaging" }),
-  ).toHaveAttribute("aria-current", "page");
-  await page
-    .getByRole("navigation", { name: "Main navigation" })
-    .getByRole("link", { name: "Events", exact: true })
-    .click();
-  await expect(page).toHaveURL(/\/events\.html$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Clearleafon campus.",
-  );
-  await page.reload();
-  await expect(
-    page.getByText("Exam season. Dates to be confirmed."),
-  ).toBeVisible();
+  await expect(page).toHaveURL(/cart\.html$/);
   await page.goBack();
-  await expect(page).toHaveURL(/\/packaging\.html$/);
+  await expect(page).toHaveURL(/join-our-team\.html$/);
   expect(errors).toEqual([]);
 });
 
-for (const viewport of [
-  { width: 1440, height: 1000 },
-  { width: 390, height: 844 },
-  { width: 320, height: 750 },
-]) {
-  test(`all pages render with readable text and no overflow at ${viewport.width}px`, async ({
-    page,
-  }) => {
-    await page.setViewportSize(viewport);
+test("cart supports two pack sizes, correct totals, refresh and removal", async ({
+  page,
+}) => {
+  await page.goto("./products.html");
+  const berry = page.getByRole("article", {
+    name: "Berrylicious",
+    exact: true,
+  });
+  await berry.getByRole("button", { name: "Add to cart" }).click();
+  await expect(page.getByRole("status", { name: "Cart update" })).toContainText(
+    "Berrylicious added",
+  );
+  await berry.getByLabel("Choose your pack").selectOption("standard");
+  await berry.getByRole("button", { name: "Increase Berrylicious" }).click();
+  await berry.getByRole("button", { name: "Add to cart" }).click();
+  await page.locator(".cart-link").click();
+  await expect(page.getByText("$44.90", { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByText("$44.90", { exact: true })).toBeVisible();
+  const standard = page.getByRole("article", {
+    name: "Berrylicious Standard pack",
+    exact: true,
+  });
+  await standard
+    .getByRole("button", { name: "Decrease Berrylicious Standard pack" })
+    .click();
+  await expect(page.getByText("$24.95", { exact: true })).toBeVisible();
+  await standard
+    .getByRole("button", { name: "Remove Berrylicious Standard pack" })
+    .click();
+  await expect(
+    page.getByRole("article", {
+      name: "Berrylicious Standard pack",
+      exact: true,
+    }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "Empty my cart" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Your cart is waiting for tea." }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(page.locator(".cart-count")).toHaveText("0");
+});
+
+test("corrupt saved cart does not crash and invalid products are ignored", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await page.evaluate(() => localStorage.setItem("clearleaf-cart-v2", "oops"));
+  await page.goto("./cart.html");
+  await expect(
+    page.getByRole("heading", { name: "Your cart is waiting for tea." }),
+  ).toBeVisible();
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "clearleaf-cart-v2",
+      JSON.stringify([
+        { teaId: "unknown", packId: "starter", quantity: 2 },
+        { teaId: "mint", packId: "starter", quantity: -3 },
+        { teaId: "lemon", packId: "starter", quantity: 1 },
+      ]),
+    ),
+  );
+  await page.reload();
+  await expect(page.locator(".cart-count")).toHaveText("1");
+  await expect(
+    page.getByRole("article", { name: "Lemon Myrtle Starter pack" }),
+  ).toBeVisible();
+});
+
+for (const width of [1440, 390, 320])
+  test(`pages, fonts and artwork work at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 1000 });
     const failed: string[] = [];
-    page.on("response", (response) => {
-      if (response.status() >= 400) failed.push(response.url());
+    const errors: string[] = [];
+    page.on("response", (r) => {
+      if (r.status() >= 400) failed.push(r.url());
     });
-    for (const file of ["index.html", "packaging.html", "events.html"]) {
+    page.on("pageerror", (e) => errors.push(e.message));
+    for (const file of routes) {
       await page.goto(`./${file}`);
-      await loadArtwork(page);
+      await loadImages(page);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       expect(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
-      const smallText = await page
-        .locator("p, a, dt, dd, figcaption")
+      const tiny = await page
+        .locator("p,a,button,select,dt,dd,figcaption")
         .evaluateAll((elements) =>
           elements
             .filter(
-              (element) => parseFloat(getComputedStyle(element).fontSize) < 16,
+              (e) =>
+                !e.closest(".sr-only") &&
+                getComputedStyle(e).display !== "none" &&
+                parseFloat(getComputedStyle(e).fontSize) < 16,
             )
-            .map((element) => element.textContent),
+            .map((e) => e.textContent),
         );
-      expect(smallText).toEqual([]);
-      if (viewport.width !== 320)
+      expect(tiny).toEqual([]);
+      if (width !== 320)
         await page.screenshot({
-          path: `/tmp/clearleaf-${file.replace(".html", "")}-${viewport.width}.png`,
+          path: `/tmp/clearleaf-redesign-${file.replace(".html", "")}-${width}.png`,
           fullPage: true,
         });
     }
     expect(failed).toEqual([]);
+    expect(errors).toEqual([]);
   });
-}
 
-test("original sachets and poster link load at the repository path", async ({
+test("campus programme, influencer opportunities and legacy packaging link work", async ({
   page,
 }) => {
-  await page.goto("./packaging.html");
-  await expect(
-    page.getByRole("img", {
-      name: "Original Berrylicious Clearleaf sachet design",
-      exact: true,
-    }),
-  ).toBeVisible();
-  expect(await page.locator(".sachet-artwork image").count()).toBe(3);
   await page.goto("./events.html");
-  const poster = page.getByRole("link", { name: "Open the poster" });
+  await expect(
+    page.getByRole("heading", { name: "More than a stand." }),
+  ).toBeVisible();
+  const poster = page.getByRole("link", { name: "See the original poster" });
   const href = await poster.getAttribute("href");
   const response = await page.request.get(new URL(href!, page.url()).href);
   expect(response.status()).toBe(200);
-  expect(response.headers()["content-type"]).toContain("image/png");
+  await page.goto("./join-our-team.html");
+  await page.getByRole("link", { name: "Find your place" }).click();
+  await expect(page.locator("#opportunities")).toBeInViewport();
+  await expect(
+    page.getByText("For influencers & creators", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("For brand ambassadors", { exact: true }),
+  ).toBeVisible();
+  await page.goto("./packaging.html");
+  await expect(
+    page.getByRole("heading", { name: "Berrylicious", exact: true }),
+  ).toBeVisible();
 });

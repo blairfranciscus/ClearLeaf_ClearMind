@@ -1,43 +1,54 @@
-# Clearleaf — saved handoff, 28 October 2026
+# Clearleaf — saved handoff, 30 October 2026
 
-## User direction
+## Current user direction
 
-The user disliked the first animated one-page design, small text, blurry images and artificial-looking illustrations. Current instruction: keep it simple and human, use the user's content and artwork, with three separate pages: **Home, Packaging and Events**. Avoid bringing back the quiz, mock cart, elaborate animations, invented botanical illustrations, tiny labels or overdecorated layouts.
+This replaces the earlier three-page brief. The user now wants six pages: **Home, About, Our Products, My Cart, Events, and Join Our Team**. They want a simple, cutesy, Pinterest-inspired feminine design using their uploaded drawings, while keeping text readable and artwork sharp. The old single-page elaborate animated garden and quiz should not return.
 
-## Saved implementation
+Explicit clarifications this session:
+- Events programmes are for **university campuses**, not primary/secondary schools.
+- Join Our Team is for **influencers joining campaigns and becoming brand ambassadors**, not general jobs.
+- Application email/form was not provided. It is clearly marked as coming soon; no fake application submission.
+- My Cart is explicitly requested again, superseding the old instruction to remove the cart.
 
-- React + TypeScript + Vite, with real `index.html`, `packaging.html`, and `events.html` entries.
-- Shared navigation and footer in `src/components.tsx`, page layouts in `src/main.tsx`, packaging data in `src/content.ts`, styling in `src/styles.css`.
-- 18px body text, 20–21px introductory text, 16px minimum supporting text. System Arial body and Georgia headings. No external font loading.
-- Original floral teacup replaces the invented animated version.
-- Extracted original embedded image pixels from `/Users/blairfranciscus/Desktop/Marketing Group Assignment (3).pdf` into `public/images/original-teacup.png` (1192×1180), `original-sachets.png` (1924×242), `original-stall.png` (1536×1024), and `original-poster.png` (1024×1536). No generated replacements. Original screenshots remain preserved.
-- Individual packaging designs use non-destructive SVG viewports over the higher-resolution original sachet strip.
-- Original flower border in the footer. Straightforward factual copy. Proposed campus campaign, with dates unconfirmed.
-- Important content discrepancy: campaign images use Berry Hibiscus and Night Study, while approved collection names are Berrylicious, Mint Study and Lemon Myrtle. Do not silently rename or modify artwork; campaign labels are marked as unconfirmed.
+## Implementation saved
 
-## GitHub Pages — retain this setup
+- React + TypeScript + Vite multipage build.
+- Real entries: `index.html`, `about.html`, `products.html`, `cart.html`, `events.html`, `join-our-team.html`.
+- Legacy `packaging.html` remains functional and shows Our Products.
+- Page components in `src/pages/`; shared header/footer/links/sachet viewports/quantity controls in `src/components.tsx`.
+- Cart provider in `src/cart.tsx`; names, proposed pack data and navigation in `src/content.ts`.
+- Cream, blush pink, sage, gingham detail, original floral drawings, simple serif headings and 18px body text. Minimum supporting text 16px. No external font downloads, no elaborate animation or quiz.
+- Original flower-filled cup on Home. Uploaded cup-and-heart line drawing on About and Join Our Team, copied to `public/images/teacup-sketch.png`.
+- Higher-resolution artwork extracted from the PDF is preserved in `public/images/original-teacup.png`, `original-sachets.png`, `original-stall.png`, `original-poster.png`. Original screenshots remain untouched.
+- Original sachet strip is displayed through SVG viewports rather than redrawing or generating replacement packaging.
+- Products support pack selection, quantities and Add to Cart. Proposed prices come from the supplied marketing report: 5 sachets $5.00 AUD, 20 sachets $19.95 AUD. Clearly labelled as concept prices. No real checkout/payment/shipping/accounts.
+- Cart stored under `clearleaf-cart-v2`; validates stored data, handles malformed storage, merges duplicates and caps quantities at 99. Header count updates. Real page navigation preserves it through localStorage.
+- University Events covers the proposed USyd sampling pop-up, campus ambassador programme and campaign content. Dates remain unconfirmed.
+- Influencer/ambassador page explains the proposed campaign roles. Application contact and terms are marked as coming soon.
+- Product names remain Berrylicious, Mint Study and Lemon Myrtle. Campaign artwork has different labels in places; its final labels and schedule are identified as illustrative/unconfirmed.
 
-User explicitly wants **Deploy from a branch → main → /docs**, not a custom Actions workflow.
+## GitHub Pages — keep the user’s chosen setup
 
-`npm run build` checks TypeScript and generates tracked `docs/` with all three HTML pages and assets. Commit/push all generated changes and deletions alongside source changes. `.nojekyll` comes from `public/.nojekyll`.
+**Deploy from a branch → main → /docs**. No custom Actions deployment.
 
-Main live URL: https://blairfranciscus.github.io/ClearLeaf_ClearMind/
+`npm run build` checks TypeScript and regenerates all production pages/assets in tracked `docs/`. Commit/push all source and generated changes, including deletion of old hashed assets. `.nojekyll` comes from `public/.nojekyll`.
 
-Do not give the old `/docs/` URL: when Pages publishes from `/docs`, that directory becomes the live root. Earlier blank-page issues came from publishing root development HTML, which points to raw TSX. The live main address was verified working in Chrome before this redesign.
+Live root: https://blairfranciscus.github.io/ClearLeaf_ClearMind/
+
+Do not give `/docs/` as a live URL. Publishing from that folder maps its contents to the root. Earlier blank pages came from publishing development HTML instead of compiled docs.
+
+Changes in this session are local. The assistant has not committed, pushed or deployed them. Preserve user changes such as the pre-existing `.DS_Store` modification.
 
 ## Verification completed
 
-- `npm run build` passed after the higher-resolution original artwork was integrated.
-- `npx playwright test --config playwright.pages.config.ts`: **5 passed**. These are updated tests for the simpler pages; old cart/quiz tests have been replaced.
-- Checked true page navigation, direct reload and browser back; layouts at 1440px, 390px and 320px; no horizontal overflow; text sizes at least 16px; image requests and original poster link.
-- Screenshots from those checks are in `/tmp/clearleaf-index-1440.png`, `/tmp/clearleaf-packaging-1440.png`, `/tmp/clearleaf-events-1440.png` and corresponding `390` versions. These temporary files may not survive a restart.
-- Changes are saved locally. No remote commit/push or publication was performed by the assistant.
+- `npm run build`: passed for final implementation.
+- `npx playwright test --config playwright.pages.config.ts`: **7 passed** on final build.
+- Covers all six pages and true navigation/reload/back, both pack sizes, cart subtotal/quantity/removal/persistence, malformed saved storage, legacy Packaging URL, original poster URL, university programme and influencer/ambassador content.
+- All six pages checked at 1440px, 390px and 320px. No horizontal overflow, failed image requests or JavaScript errors. Supporting text at least 16px.
+- Desktop and mobile screenshots saved temporarily in `/tmp/clearleaf-redesign-{index,about,products,cart,events,join-our-team}-{1440,390}.png`.
+- Visually reviewed Home desktop, Products mobile and Join Our Team desktop; coherent original artwork, gingham/pastel styling and readable layouts.
+- An initial browser-test permission review timed out. A permitted retry succeeded. No remaining permission blocker.
 
 ## Next session
 
-1. Read this file and inspect `git status` to retain any newer user edits.
-2. Visually inspect the screenshots (or regenerate) for any final layout refinements. Browser tests have already passed, but the final screenshots were not yet visually reviewed before the user needed to shut down.
-3. Keep the three-page design simple. Do not expand scope without user direction.
-4. Keep `README.md` accurate. If code changes, rebuild `docs/` before handing off for the user to push.
-
-The user asked to save because the laptop battery died. Do not restart the design or repeat earlier GitHub setup troubleshooting without new evidence.
+Read this note and `git status` first. Continue within the current six-page direction, keep GitHub deployment configuration, use any new uploaded drawings and incorporate user feedback. Add real ambassador contact details only when supplied. If changing implementation, rebuild `docs/` before the user pushes. Do not repeat the old deployment troubleshooting without new evidence.

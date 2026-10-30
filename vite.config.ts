@@ -7,7 +7,15 @@ export default defineConfig({
   build: {
     outDir: "docs",
     rollupOptions: {
-      input: ["index.html", "packaging.html", "events.html"],
+      input: [
+        "index.html",
+        "about.html",
+        "products.html",
+        "cart.html",
+        "events.html",
+        "join-our-team.html",
+        "packaging.html",
+      ],
     },
   },
 });

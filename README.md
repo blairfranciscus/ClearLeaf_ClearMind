@@ -1,30 +1,60 @@
 # Clearleaf
 
-A simple three-page brand website: Home, Packaging and Events. Built with React, TypeScript and Vite, using the supplied brand artwork at sensible display sizes and readable typography.
+A six-page botanical tea concept website with a soft blush, cream and sage palette, gingham details and the user's original drawings. Built with React, TypeScript and Vite.
 
-## Saved progress
+## Pages
 
-The three-page redesign is saved in the project. The animated hero, quiz and mock shopping cart have been removed in favour of the original branding and straightforward navigation. Body text is 18px, with larger headings and 16px minimum supporting text. Higher-resolution originals were extracted directly from the supplied PDF for the teacup, sachets, stall and poster. Packaging uses SVG viewports to display the original sachet strip without redrawing it.
+- **Home** — tea introduction, the flower-filled cup and a preview of the collection.
+- **About** — the brand story and the supplied line-drawn teacup sketch.
+- **Our Products** — Berrylicious, Mint Study and Lemon Myrtle, with concept pack selection and Add to Cart.
+- **My Cart** — persistent pack quantities, removal and concept totals. No payment, shipping or checkout.
+- **Events** — proposed university campus programmes, the pop-up and original campaign poster.
+- **Join Our Team** — influencer campaigns and brand ambassador participation. Application contact and campaign terms are marked as coming soon.
 
-The production build has been updated in `docs/`. Five browser checks pass against the production build beneath the GitHub repository path: page navigation, refresh and browser back, desktop and mobile layouts (1440px, 390px and 320px), readable text, image loading and the poster link.
+The old `packaging.html` address continues to display Our Products so existing links work.
 
-## Edit and preview
+## Run and edit
 
-- `index.html`, `packaging.html`, `events.html`: real page entry points.
-- `src/main.tsx`: page layouts and factual copy from the supplied report.
-- `src/components.tsx`: shared header, footer and page links.
-- `src/content.ts`: packaging information and asset paths.
-- `src/styles.css`: typography and responsive layouts.
-- `public/images/`: original brand screenshots, preserved without generative alterations.
+```sh
+npm install
+npm run dev
+```
 
-Run `npm run dev` to preview locally. Run `npm run build` after source changes; it regenerates all three pages and assets in `docs/`.
+Content and page layouts are in `src/pages/`. Shared header, footer, links, sachet artwork and quantity controls are in `src/components.tsx`. Edit product names, proposed pack prices and navigation in `src/content.ts`. The cart is in `src/cart.tsx`; CSS is in `src/styles.css`.
 
-## GitHub Pages
+Body text is 18px, with 16px minimum supporting text. The header uses regular links across pages, including on mobile. No quiz or complex animation is included.
 
-Commit and push **all source changes and the complete regenerated `docs/` folder**, including removed build files. In Settings → Pages select **Deploy from a branch → main → /docs**.
+## Cart and concept prices
+
+Cart items use `clearleaf-cart-v2` in browser localStorage, keyed by flavour and pack. Quantities range from 1 to 99. Invalid storage is ignored. The UI reports when the browser cannot save the cart. Earlier cart data from the original single-page mock store is not imported because it did not identify pack sizes.
+
+Proposed AUD prices come from the supplied report: 5-sachet Starter Pack $5.00 and 20-sachet Standard Pack $19.95. These are clearly labelled as concept prices, not live offers. No customer information or payments are collected.
+
+## Artwork and brand facts
+
+`public/images/` preserves the original screenshots and higher-resolution artwork extracted directly from the provided PDF. The sachet SVG viewports display the original strip without redrawing it. `teacup-sketch.png` is a copy of the supplied line-drawn cup and heart screenshot.
+
+The campus campaign is proposed, with dates and flavour labels unconfirmed. Campus programmes refer to universities, as clarified by the user. Final product ingredients, allergens and serving amounts remain unconfirmed. Join Our Team refers to influencers and brand ambassadors, not general employment; no compensation, application availability or partnerships are invented.
+
+## Build and publish from main
+
+```sh
+npm run build
+```
+
+This generates all page HTML files and assets in the tracked `docs/` folder. Commit and push **all source changes and the complete regenerated `docs/` folder**, including removed build files.
+
+GitHub Pages setting: **Deploy from a branch → main → /docs**.
 
 Live address: https://blairfranciscus.github.io/ClearLeaf_ClearMind/
 
-The old `/docs/` URL is not the live address when Pages publishes from that folder. GitHub serves its contents at the address above. The root `index.html` is the development entry; publish the built folder.
+Do not use `/docs/` in the live URL: GitHub publishes that folder's contents at the site root. Do not publish the root development HTML files as a website; they point to TypeScript source. No custom GitHub Actions deployment is needed.
 
-Clearleaf is a University of Sydney marketing concept. The campus event is proposed, with dates to be confirmed. Full product ingredients, allergens and serving information have not been finalised. The campaign poster and stall use some different flavour labels from the sachet collection; supplied artwork is preserved and final labels are marked as unconfirmed.
+## Browser checks
+
+```sh
+npm run build
+npx playwright test --config playwright.pages.config.ts
+```
+
+Tests require Google Chrome. They exercise page navigation and reload, cart persistence and totals, malformed storage, the legacy packaging address, the campaign poster and layouts at 1440px, 390px and 320px. The production test server uses the repository path `/ClearLeaf_ClearMind/` to catch hosting path mistakes.
