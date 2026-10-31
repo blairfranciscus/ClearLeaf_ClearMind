@@ -59,6 +59,8 @@ npx playwright test --config playwright.pages.config.ts
 
 Tests require Google Chrome. They exercise page navigation and reload, cart persistence and totals, malformed storage, the legacy packaging address, the campaign poster and layouts at 1440px, 390px and 320px. The production test server uses the repository path `/ClearLeaf_ClearMind/` to catch hosting path mistakes.
 
+Mobile checks in `tests/mobile.spec.ts` cover all seven addresses at eight phone, tablet and landscape sizes from 320px to 1024px, including a fully populated cart. Touch emulation at 320px, 390px and 820px checks navigation, pack selection, quantity changes, product details, cart notices, persistence, removal, rotation and the flower reveal. Phone, tablet and coarse-pointer controls have larger touch areas, including 44px quantity buttons and navigation links. These checks use Chrome device emulation; they do not replace testing on physical iOS and Android devices.
+
 ## Colours and reverting to the previous palette
 
 The page background is the original near-white `#FFFAF6`. Light pink `#FFE7E4` is reserved for the slim banner, small badges, gingham details, selected panels, link borders and hover states. The palette keeps garden-green Clearleaf lettering `#3E8340`, deeper green buttons `#356F38`, cream panels `#F7EFDA` and pale sage accents `#DADEBB`. The overrides are in `src/palette.css`, with original values recorded in comments. `src/styles.css` is preserved unchanged.

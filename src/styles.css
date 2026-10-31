@@ -381,8 +381,10 @@ figcaption {
   height: clamp(180px, 24vw, 360px);
   background-color: #ffffff;
   background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: center bottom;
+  /* The drawing ends 9% above the image edge; crop its blank paper below
+     the stems while preserving the artwork's proportions. */
+  background-size: auto calc(100% / 0.91);
+  background-position: center top;
 }
 .footer-bottom {
   display: flex;
@@ -1176,7 +1178,8 @@ dd {
     padding: 12px 15px;
   }
   .quantity button {
-    width: 34px;
+    width: 44px;
+    height: 44px;
   }
   .next-step {
     flex-direction: column;
@@ -1354,6 +1357,34 @@ dd {
   }
   .cart-item-actions {
     gap: 12px;
+  }
+}
+/* Comfortable touch targets on phones, tablets and other touch screens. */
+@media (max-width: 1100px), (pointer: coarse) {
+  .quantity button {
+    width: 44px;
+    height: 44px;
+  }
+  .product-actions {
+    flex-wrap: wrap;
+  }
+  .cart-link,
+  .site-header nav a,
+  .footer-content nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .remove-button,
+  .text-link,
+  .motion-toggle,
+  .toast a {
+    min-height: 44px;
+    padding-block: 8px;
+  }
+  summary {
+    min-height: 44px;
+    padding-block: 7px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
