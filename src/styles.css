@@ -1,11 +1,4 @@
 @font-face {
-  font-family: "Merriweather";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/merriweather-regular-latin.woff2") format("woff2");
-}
-@font-face {
   font-family: "Albert Sans";
   font-style: normal;
   font-weight: 400 700;
@@ -13,7 +6,7 @@
   src: url("/fonts/albert-sans-latin.woff2") format("woff2");
 }
 :root {
-  --font-heading: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-heading: Georgia, "Times New Roman", serif;
   --font-body: "Albert Sans", "Trebuchet MS", Arial, sans-serif;
   font-family: var(--font-body);
   color: #344731;
