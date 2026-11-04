@@ -34,7 +34,7 @@ Proposed AUD prices come from the supplied report: 5-sachet Starter Pack $5.00 a
 
 `public/images/` preserves the original screenshots and higher-resolution artwork extracted directly from the provided PDF. The sachet SVG viewports now use tightly framed transparent-background edit copies. The original source strip remains preserved. `teacup-sketch.png` is a copy of the supplied line-drawn cup and heart screenshot.
 
-The campus campaign is proposed, with dates and flavour labels unconfirmed. Campus programmes refer to universities, as clarified by the user. Final product ingredients, allergens and serving amounts remain unconfirmed. Join Our Team refers to influencers and brand ambassadors, not general employment; no compensation, application availability or partnerships are invented.
+The campus campaign is proposed, with dates and flavour labels unconfirmed. Campus programmes refer to universities, as clarified by the user. Each product's expandable Ingredients & packaging section uses the shared ingredient list and sustainable single-serve sachet description supplied by the user. Natural flavours vary between daytime and nighttime varieties; no specific variety is assigned to the three displayed flavours. Allergen information and serving amounts remain unconfirmed. Join Our Team refers to influencers and brand ambassadors, not general employment; no compensation, application availability or partnerships are invented.
 
 ## Build and publish from main
 

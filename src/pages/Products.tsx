@@ -41,11 +41,21 @@ function Product({ tea }: { tea: Tea }) {
           </button>
         </div>
         <details>
-          <summary>Product details</summary>
+          <summary>Ingredients &amp; packaging</summary>
           <p>
-            A powdered tea concept, intended to mix into hot or cold water. Full
-            flavour ingredients, allergens and preparation amounts are still to
-            be confirmed.
+            <strong>Clearleaf powder sachets.</strong> A powdered tea concept,
+            intended to mix into hot or cold water.
+          </p>
+          <p>
+            <strong>Ingredients:</strong> Camellia sinensis wholeleaf powder
+            (natural caffeine and L-theanine), sodium, potassium, coconut water
+            and natural flavours. Natural flavours vary between daytime and
+            nighttime varieties.
+          </p>
+          <p>
+            <strong>Packaging:</strong> Single-serve sachets in sustainable
+            packaging, easy to take travelling or enjoy on the go. The convenient
+            format makes it easier to keep a consistent tea routine.
           </p>
         </details>
       </div>
