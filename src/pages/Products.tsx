@@ -40,24 +40,6 @@ function Product({ tea }: { tea: Tea }) {
             Add to cart <span aria-hidden="true">+</span>
           </button>
         </div>
-        <details>
-          <summary>Ingredients &amp; packaging</summary>
-          <p>
-            <strong>Clearleaf powder sachets.</strong> A powdered tea concept,
-            intended to mix into hot or cold water.
-          </p>
-          <p>
-            <strong>Ingredients:</strong> Camellia sinensis wholeleaf powder
-            (natural caffeine and L-theanine), sodium, potassium, coconut water
-            and natural flavours. Natural flavours vary between daytime and
-            nighttime varieties.
-          </p>
-          <p>
-            <strong>Packaging:</strong> Single-serve sachets in sustainable
-            packaging, easy to take travelling or enjoy on the go. The convenient
-            format makes it easier to keep a consistent tea routine.
-          </p>
-        </details>
       </div>
     </article>
   );
@@ -98,6 +80,22 @@ export default function Products() {
           Visit My Cart
         </PageLink>
       </div>
+      <section
+        className="shared-ingredients"
+        aria-labelledby="ingredients-title"
+      >
+        <h2 id="ingredients-title">Ingredients</h2>
+        <p>
+          Camellia sinensis wholeleaf powder (natural caffeine and L-theanine),
+          sodium, potassium, coconut water and natural flavours (varying between
+          daytime and nighttime varieties).
+        </p>
+        <p>
+          Wholeleaf tea forms the base, sodium and potassium are included as
+          electrolytes, and coconut water and natural flavours round out the
+          blend.
+        </p>
+      </section>
     </div>
   );
 }

@@ -97,8 +97,15 @@ for (const width of [320, 390, 820]) {
       await berry
         .getByRole("button", { name: "Increase Berrylicious", exact: true })
         .tap();
-      await berry.locator("summary").tap();
-      await expect(berry.locator("details")).toHaveAttribute("open", "");
+      const ingredients = page.getByRole("region", {
+        name: "Ingredients",
+        exact: true,
+      });
+      await expect(ingredients).toHaveCount(1);
+      await expect(ingredients).toContainText(
+        "Camellia sinensis wholeleaf powder",
+      );
+      await expect(page.locator(".product .shared-ingredients")).toHaveCount(0);
       await berry
         .getByRole("button", { name: "Add to cart", exact: true })
         .tap();

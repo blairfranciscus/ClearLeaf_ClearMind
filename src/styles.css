@@ -559,6 +559,14 @@ details p {
   margin: 15px 0 0;
   max-width: 50ch;
 }
+.shared-ingredients {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+.shared-ingredients p:last-child {
+  margin-bottom: 0;
+}
 .next-step {
   margin-top: 40px;
   display: flex;

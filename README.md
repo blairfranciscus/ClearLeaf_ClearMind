@@ -34,7 +34,7 @@ Proposed AUD prices come from the supplied report: 5-sachet Starter Pack $5.00 a
 
 `public/images/` preserves the original screenshots and higher-resolution artwork extracted directly from the provided PDF. The sachet SVG viewports now use tightly framed transparent-background edit copies. The original source strip remains preserved. `teacup-sketch.png` is a copy of the supplied line-drawn cup and heart screenshot.
 
-The campus campaign is proposed, with dates and flavour labels unconfirmed. Campus programmes refer to universities, as clarified by the user. Each product's expandable Ingredients & packaging section uses the shared ingredient list and sustainable single-serve sachet description supplied by the user. Natural flavours vary between daytime and nighttime varieties; no specific variety is assigned to the three displayed flavours. Allergen information and serving amounts remain unconfirmed. Join Our Team refers to influencers and brand ambassadors, not general employment; no compensation, application availability or partnerships are invented.
+The campus campaign is proposed, with dates and flavour labels unconfirmed. Campus programmes refer to universities, as clarified by the user. One shared Ingredients section beneath all three products lists the ingredients supplied by the user, followed by a short explanation of their roles in the blend. Natural flavours vary between daytime and nighttime varieties; no specific variety is assigned to the three displayed flavours. Allergen information and serving amounts remain unconfirmed. Join Our Team refers to influencers and brand ambassadors, not general employment; no compensation, application availability or partnerships are invented.
 
 ## Build and publish from main
 
@@ -59,7 +59,7 @@ npx playwright test --config playwright.pages.config.ts
 
 Tests require Google Chrome. They exercise page navigation and reload, cart persistence and totals, malformed storage, the legacy packaging address, the campaign poster and layouts at 1440px, 390px and 320px. The production test server uses the repository path `/ClearLeaf_ClearMind/` to catch hosting path mistakes.
 
-Mobile checks in `tests/mobile.spec.ts` cover all seven addresses at eight phone, tablet and landscape sizes from 320px to 1024px, including a fully populated cart. Touch emulation at 320px, 390px and 820px checks navigation, pack selection, quantity changes, product details, cart notices, persistence, removal, rotation and the flower reveal. Phone, tablet and coarse-pointer controls have larger touch areas, including 44px quantity buttons and navigation links. These checks use Chrome device emulation; they do not replace testing on physical iOS and Android devices.
+Mobile checks in `tests/mobile.spec.ts` cover all seven addresses at eight phone, tablet and landscape sizes from 320px to 1024px, including a fully populated cart. Touch emulation at 320px, 390px and 820px checks navigation, pack selection, quantity changes, the shared ingredients section, cart notices, persistence, removal, rotation and the flower reveal. Phone, tablet and coarse-pointer controls have larger touch areas, including 44px quantity buttons and navigation links. These checks use Chrome device emulation; they do not replace testing on physical iOS and Android devices.
 
 ## Colours and reverting to the previous palette
 
