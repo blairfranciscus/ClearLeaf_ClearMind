@@ -96,3 +96,7 @@ All eleven browser checks pass. The image audit checks loading, natural proporti
 The full-width footer garden reveals from its stems upward over two seconds when it enters view, with a gentle start and finish. The effect runs once per page visit on every page, including the legacy Packaging URL. The original image, colours, size and page height stay unchanged. Reduced-motion settings and browsers without IntersectionObserver show the complete garden immediately. Switching to reduced motion while the reveal is pending also reveals it immediately.
 
 The shared FooterGarden logic is in `src/components.tsx`; the white-cover reveal is in `src/motion.css`. The observer disconnects after the first reveal and cleans up on unmount. All thirteen browser checks pass, including once-only scroll behaviour on all seven HTML entries, reduced motion and observer fallback.
+
+## Website typography
+
+Headings use Lora for a friendly newspaper style. Body copy, navigation, captions and controls use Kalam for readable handwriting. The fonts are hosted locally in `public/fonts/` with their SIL Open Font Licenses; no third-party font requests are needed. Regular and italic Lora and regular and bold Kalam are declared in `src/styles.css`.

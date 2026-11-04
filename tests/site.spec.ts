@@ -8,6 +8,7 @@ const routes = [
   "join-our-team.html",
 ];
 async function loadImages(page: Page) {
+  await page.evaluate(() => document.fonts.ready);
   await page.locator("img").evaluateAll((images) =>
     images.forEach((image) => {
       image.loading = "eager";

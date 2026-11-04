@@ -41,6 +41,7 @@ for (const viewport of [
     );
     for (const route of routes) {
       await page.goto(`./${route}`);
+      await page.evaluate(() => document.fonts.ready);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       const overflow = await page.evaluate(() =>
         [...document.querySelectorAll("main *, header *, footer *")]

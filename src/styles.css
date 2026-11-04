@@ -1,19 +1,35 @@
 @font-face {
-  font-family: "Cormorant Garamond";
+  font-family: "Lora";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/cormorant-garamond-medium-latin.woff2") format("woff2");
+  src: url("/fonts/lora-500-normal-latin.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Cormorant Garamond";
+  font-family: "Lora";
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/cormorant-garamond-medium-italic-latin.woff2") format("woff2");
+  src: url("/fonts/lora-500-italic-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Kalam";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/kalam-400-normal-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Kalam";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/kalam-700-normal-latin.woff2") format("woff2");
 }
 :root {
-  font-family: "Avenir Next", "Trebuchet MS", Arial, sans-serif;
+  --font-heading: "Lora", Georgia, "Times New Roman", serif;
+  --font-body: "Kalam", "Trebuchet MS", sans-serif;
+  font-family: var(--font-body);
   color: #344731;
   background: #fffaf6;
   font-size: 18px;
@@ -66,7 +82,7 @@ p {
 h1,
 h2,
 h3 {
-  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   line-height: 1.12;
   letter-spacing: -0.025em;
@@ -123,7 +139,7 @@ summary:focus-visible {
 }
 .brand {
   text-decoration: none;
-  font-family: Georgia, serif;
+  font-family: var(--font-heading);
   font-size: 43px;
   font-style: italic;
   letter-spacing: -2px;
@@ -131,7 +147,7 @@ summary:focus-visible {
 }
 .brand span {
   display: block;
-  font-family: "Avenir Next", "Trebuchet MS", Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
   letter-spacing: 0;
@@ -283,8 +299,8 @@ figcaption {
 }
 .hero-art figcaption {
   text-align: center;
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-family: var(--font-body);
+  font-style: normal;
   font-size: 20px;
   color: var(--rose);
   transform: rotate(-3deg);
@@ -448,8 +464,8 @@ figcaption {
   mix-blend-mode: multiply;
 }
 .sketch-paper figcaption {
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-family: var(--font-body);
+  font-style: normal;
   text-align: center;
   font-size: 20px;
   color: var(--rose);
@@ -589,7 +605,7 @@ details p {
   gap: 24px;
 }
 .next-step p {
-  font-family: Georgia, serif;
+  font-family: var(--font-heading);
   font-size: 27px;
   margin: 0;
 }
@@ -739,7 +755,7 @@ dd {
 }
 .programme-number {
   display: inline-block;
-  font-family: Georgia, serif;
+  font-family: var(--font-heading);
   font-size: 25px;
   font-style: italic;
   color: #677955;
@@ -807,8 +823,8 @@ dd {
   mix-blend-mode: multiply;
 }
 .team-note figcaption {
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-family: var(--font-body);
+  font-style: normal;
   font-size: 20px;
   text-align: center;
   color: var(--rose);
@@ -1396,6 +1412,7 @@ dd {
     display: flex;
     align-items: center;
     min-height: 44px;
+    min-width: 44px;
   }
   .remove-button,
   .text-link,
