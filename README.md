@@ -99,4 +99,4 @@ The shared FooterGarden logic is in `src/components.tsx`; the white-cover reveal
 
 ## Website typography
 
-Headings use Young Serif, and body copy, navigation, captions and controls use Albert Sans. Main body text and buttons are 20px, with supporting text at least 18px and responsive headings sized for phones and larger screens. The fonts are hosted locally in `public/fonts/` with their SIL Open Font Licenses; no third-party font requests are needed. Young Serif regular and Albert Sans variable weights 400–700 are declared in `src/styles.css`.
+Headings use Merriweather, and body copy, navigation, captions and controls use Albert Sans. Main body text and buttons are 20px, with supporting text at least 18px and responsive headings sized for phones and larger screens. The fonts are hosted locally in `public/fonts/` with their SIL Open Font Licenses; no third-party font requests are needed. Merriweather regular and Albert Sans variable weights 400–700 are declared in `src/styles.css`.
