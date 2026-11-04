@@ -1,38 +1,24 @@
 @font-face {
-  font-family: "Lora";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/lora-500-normal-latin.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Lora";
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url("/fonts/lora-500-italic-latin.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Kalam";
+  font-family: "Young Serif";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/kalam-400-normal-latin.woff2") format("woff2");
+  src: url("/fonts/young-serif-latin.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Kalam";
+  font-family: "Albert Sans";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400 700;
   font-display: swap;
-  src: url("/fonts/kalam-700-normal-latin.woff2") format("woff2");
+  src: url("/fonts/albert-sans-latin.woff2") format("woff2");
 }
 :root {
-  --font-heading: "Lora", Georgia, "Times New Roman", serif;
-  --font-body: "Kalam", "Trebuchet MS", sans-serif;
+  --font-heading: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Albert Sans", "Trebuchet MS", Arial, sans-serif;
   font-family: var(--font-body);
   color: #344731;
   background: #fffaf6;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.7;
   font-synthesis: none;
   --green: #40583a;
@@ -83,15 +69,16 @@ h1,
 h2,
 h3 {
   font-family: var(--font-heading);
-  font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
 }
 h1 {
-  font-size: clamp(46px, 5.5vw, 76px);
+  font-size: clamp(50px, 5.5vw, 80px);
 }
 h2 {
-  font-size: clamp(32px, 3.3vw, 45px);
+  font-size: clamp(36px, 3.3vw, 48px);
 }
 h3 {
   font-size: 30px;
@@ -99,8 +86,9 @@ h3 {
 }
 h1 em,
 h2 em {
+  font-style: normal;
   color: var(--rose);
-  font-weight: 500;
+  font-weight: 400;
 }
 p {
   max-width: 60ch;
@@ -123,7 +111,7 @@ summary:focus-visible {
   text-align: center;
   background: #f2e3e5;
   padding: 9px 20px;
-  font-size: 16px;
+  font-size: 18px;
   color: #5f4b50;
 }
 .top-note span {
@@ -148,7 +136,7 @@ summary:focus-visible {
 .brand span {
   display: block;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.5;
   letter-spacing: 0;
   font-style: normal;
@@ -162,7 +150,7 @@ summary:focus-visible {
   flex-wrap: wrap;
 }
 .site-header nav a {
-  font-size: 17px;
+  font-size: 20px;
   text-decoration: none;
   white-space: nowrap;
   padding: 8px 0;
@@ -178,7 +166,7 @@ summary:focus-visible {
   gap: 9px;
   align-items: center;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 20px;
   white-space: nowrap;
 }
 .cart-count {
@@ -188,14 +176,14 @@ summary:focus-visible {
   place-items: center;
   border: 1px solid #c8d2bc;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: 18px;
   background: #edf0e6;
 }
 .cart-link[aria-current="page"] {
   color: var(--rose);
 }
 .eyebrow {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.3px;
   color: var(--rose);
@@ -224,7 +212,7 @@ summary:focus-visible {
   padding: 12px 22px;
   color: #fffdf9;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.5;
 }
 .button:hover {
@@ -243,7 +231,7 @@ summary:focus-visible {
   border: 0;
   border-bottom: 1px solid #a7b397;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   padding: 6px 0;
   line-height: 1.6;
 }
@@ -292,7 +280,7 @@ summary:focus-visible {
   transform: rotate(-2deg);
 }
 figcaption {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.6;
   color: var(--muted);
   margin-top: 14px;
@@ -355,7 +343,7 @@ figcaption {
   font-size: 29px;
 }
 .tea-preview-item > span {
-  font-size: 17px;
+  font-size: 20px;
   color: var(--muted);
 }
 .campus-invitation {
@@ -389,7 +377,7 @@ figcaption {
   margin-bottom: 10px;
 }
 .footer-content p {
-  font-size: 17px;
+  font-size: 20px;
   margin-top: 18px;
   color: var(--muted);
 }
@@ -400,7 +388,7 @@ figcaption {
   padding-top: 10px;
 }
 .footer-content nav a {
-  font-size: 17px;
+  font-size: 20px;
   text-decoration: none;
 }
 .footer-content nav a:hover {
@@ -425,7 +413,7 @@ figcaption {
   margin-top: 20px;
 }
 .footer-bottom p {
-  font-size: 16px;
+  font-size: 18px;
   margin: 0;
   color: var(--muted);
 }
@@ -471,7 +459,7 @@ figcaption {
   color: var(--rose);
 }
 .story-copy p {
-  font-size: 18px;
+  font-size: 20px;
 }
 .brand-note {
   max-width: 800px;
@@ -494,7 +482,7 @@ figcaption {
   color: var(--rose);
 }
 .concept-note p {
-  font-size: 16px;
+  font-size: 18px;
   max-width: 88ch;
   margin: 0;
 }
@@ -530,7 +518,7 @@ figcaption {
 }
 .field-label {
   display: block;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -541,8 +529,8 @@ select {
   border: 1px solid #b8c2ac;
   background: #fffdf8;
   border-radius: 5px;
-  padding: 12px 40px 12px 14px;
-  font-size: 17px;
+  padding: 12px 28px 12px 10px;
+  font-size: 18px;
   min-height: 50px;
 }
 .product-actions {
@@ -572,7 +560,7 @@ select {
   padding: 0;
 }
 .quantity output {
-  font-size: 18px;
+  font-size: 20px;
   min-width: 28px;
   text-align: center;
 }
@@ -581,11 +569,11 @@ details {
 }
 summary {
   cursor: pointer;
-  font-size: 17px;
+  font-size: 20px;
   text-underline-offset: 4px;
 }
 details p {
-  font-size: 16px;
+  font-size: 18px;
   margin: 15px 0 0;
   max-width: 50ch;
 }
@@ -636,7 +624,7 @@ details p {
   margin-bottom: 10px;
 }
 .cart-item p {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
 }
 .cart-item-actions {
@@ -650,11 +638,11 @@ details p {
   background: none;
   border: 0;
   border-bottom: 1px solid #b99b9e;
-  font-size: 16px;
+  font-size: 18px;
   padding: 5px 0;
 }
 .line-total {
-  font-size: 18px;
+  font-size: 20px;
   white-space: nowrap;
 }
 .cart-summary {
@@ -667,7 +655,7 @@ details p {
   font-size: 33px;
 }
 .cart-summary p {
-  font-size: 16px;
+  font-size: 18px;
 }
 .total-row {
   display: flex;
@@ -676,11 +664,11 @@ details p {
   padding: 20px 0;
   border-block: 1px solid #dec7cc;
   margin-bottom: 22px;
-  font-size: 18px;
+  font-size: 20px;
 }
 .cart-summary .button {
   width: 100%;
-  font-size: 17px;
+  font-size: 20px;
 }
 .empty-cart {
   text-align: center;
@@ -716,7 +704,7 @@ details p {
   display: inline-block;
   background: var(--sage);
   padding: 4px 13px;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 4px;
   margin-bottom: 18px;
 }
@@ -728,11 +716,11 @@ details p {
   border-top: 1px solid var(--line);
 }
 dt {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
 }
 dd {
-  font-size: 18px;
+  font-size: 20px;
   margin: 4px 0 0;
   color: var(--muted);
 }
@@ -765,7 +753,7 @@ dd {
   font-size: 28px;
 }
 .programme-grid p {
-  font-size: 17px;
+  font-size: 20px;
   margin-bottom: 0;
 }
 .poster-section {
@@ -854,7 +842,7 @@ dd {
   border-color: #d6dfc8;
 }
 .role-label {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 }
 .opportunity h3 {
@@ -862,7 +850,7 @@ dd {
 }
 .opportunity p,
 .opportunity li {
-  font-size: 18px;
+  font-size: 20px;
 }
 .opportunity ul {
   padding-left: 22px;
@@ -889,7 +877,7 @@ dd {
   margin-bottom: 15px;
 }
 .application-note .small-copy {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 0;
   color: var(--muted);
 }
@@ -935,7 +923,7 @@ dd {
   padding: 16px 24px;
   border-radius: 6px;
   box-shadow: 0 7px 24px #30422b25;
-  font-size: 16px;
+  font-size: 18px;
   max-width: calc(100% - 32px);
   width: max-content;
 }
@@ -1010,7 +998,7 @@ dd {
     width: calc(100% - 40px);
   }
   .top-note {
-    font-size: 16px;
+    font-size: 18px;
     padding: 9px 20px;
   }
   .top-note span {
@@ -1020,11 +1008,11 @@ dd {
     font-size: 37px;
   }
   .brand span {
-    font-size: 16px;
+    font-size: 18px;
     max-width: 19ch;
   }
   .cart-link {
-    font-size: 16px;
+    font-size: 18px;
     gap: 6px;
   }
   .cart-link svg {
@@ -1044,7 +1032,7 @@ dd {
     padding: 7px 0 12px;
   }
   .site-header nav a {
-    font-size: 17px;
+    font-size: 20px;
     min-height: 44px;
   }
   .home-hero {
@@ -1053,7 +1041,7 @@ dd {
     padding-block: 38px 50px;
   }
   .hero-copy h1 {
-    font-size: 62px;
+    font-size: clamp(46px, 12vw, 62px);
   }
   .hero-copy .lead {
     font-size: 21px;
@@ -1066,7 +1054,7 @@ dd {
     margin-top: 25px;
   }
   .button {
-    font-size: 18px;
+    font-size: 20px;
     padding: 12px 18px;
   }
   .hero-art {
@@ -1099,7 +1087,7 @@ dd {
   }
   .tea-preview-item {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(90px, 0.75fr) minmax(0, 1.25fr);
     gap: 0 20px;
     align-items: center;
   }
@@ -1116,7 +1104,7 @@ dd {
   }
   .tea-preview-item > span {
     align-self: start;
-    font-size: 17px;
+    font-size: 20px;
   }
   .campus-invitation {
     grid-template-columns: 1fr;
@@ -1137,7 +1125,7 @@ dd {
     width: 100%;
   }
   .footer-content nav a {
-    font-size: 17px;
+    font-size: 20px;
   }
   .footer-content p {
     margin-bottom: 0;
@@ -1150,7 +1138,7 @@ dd {
     gap: 8px;
   }
   .footer-bottom p {
-    font-size: 16px;
+    font-size: 18px;
   }
   .page-content {
     padding-block: 36px 45px;
@@ -1349,7 +1337,7 @@ dd {
     font-size: 34px;
   }
   .brand span {
-    font-size: 16px;
+    font-size: 18px;
     max-width: 16ch;
   }
   .cart-link svg {
@@ -1359,10 +1347,10 @@ dd {
     column-gap: 18px;
   }
   .site-header nav a {
-    font-size: 16px;
+    font-size: 18px;
   }
   .hero-copy h1 {
-    font-size: 53px;
+    font-size: 46px;
   }
   .page-intro h1 {
     font-size: 42px;
@@ -1380,7 +1368,7 @@ dd {
     flex-wrap: wrap;
   }
   .product-actions .button {
-    flex: 1;
+    flex: 1 1 100%;
     min-width: 145px;
   }
   .quantity {

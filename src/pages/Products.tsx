@@ -26,7 +26,7 @@ function Product({ tea }: { tea: Tea }) {
         >
           {packs.map((p) => (
             <option value={p.id} key={p.id}>
-              {p.name} · {p.sachets} sachets · {money(p.cents)}
+              {p.name.replace(" pack", "")} · {p.sachets} sachets · {money(p.cents)}
             </option>
           ))}
         </select>
